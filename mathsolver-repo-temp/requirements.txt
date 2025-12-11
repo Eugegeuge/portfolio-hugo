@@ -1,7 +1,0 @@
-opencv-python
-numpy
-tensorflow
-scikit-learn
-sympy
-joblib
-matplotlib
