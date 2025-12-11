@@ -433,20 +433,20 @@
             <span class="text-purple-500 font-mono">04.</span> Featured Projects
         </h2>
         <div class="grid md:grid-cols-2 gap-8">
-            <div
-                class="group bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500 transition-all hover:-translate-y-1">
+            <a href="mathsolver.html"
+                class="group bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500 transition-all hover:-translate-y-1 block">
                 <div class="p-8">
                     <div class="flex justify-between items-start mb-6">
                         <i data-lucide="scan-line" class="w-10 h-10 text-purple-500"></i>
-                        <a href="#" class="text-slate-400 hover:text-white"><i data-lucide="github"
-                                class="w-5 h-5"></i></a>
+                        <span
+                            class="text-xs text-slate-500 border border-slate-500/30 px-2 py-0.5 rounded bg-slate-500/10 self-start">Paused</span>
                     </div>
-                    <a href="mathsolver.html" class="block group">
+                    <div class="block group">
                         <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
                             MathSolver AI <span class="text-xs ml-2 text-slate-500 font-normal font-mono">↗ Read Case
                                 Study</span>
                         </h3>
-                    </a>
+                    </div>
                     <p class="text-slate-400 text-sm mb-6">
                         App that scans handwritten equations via camera and solves them in real-time.
                         Uses a hybrid model (<strong>CNN + SVM</strong>) to optimize accuracy despite a limited dataset.
@@ -457,9 +457,9 @@
                         <span class="bg-purple-900/30 px-2 py-1 rounded">SVM + CNN</span>
                     </div>
                 </div>
-            </div>
-            <div
-                class="group bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500 transition-all hover:-translate-y-1">
+            </a>
+            <a href="kinova.html"
+                class="group bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-purple-500 transition-all hover:-translate-y-1 block">
                 <div class="p-8">
                     <div class="flex justify-between items-start mb-6">
                         <i data-lucide="glasses" class="w-10 h-10 text-pink-500"></i>
@@ -469,12 +469,12 @@
                                 Repo</span>
                         </div>
                     </div>
-                    <a href="kinova.html" class="block group">
+                    <div class="block group">
                         <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
                             VR Kinova Teleoperation <span class="text-xs ml-2 text-slate-500 font-normal font-mono">↗
                                 Read Case Study</span>
                         </h3>
-                    </a>
+                    </div>
                     <p class="text-slate-400 text-sm mb-6">
                         Immersive VR interface to control a 6-DOF Kinova MICO2 robot.
                         Implements a <strong>"Digital Twin"</strong> system for trajectory planning using
@@ -486,11 +486,11 @@
                         <span class="bg-purple-900/30 px-2 py-1 rounded">VR (Meta Quest)</span>
                     </div>
                 </div>
-            </div>
+            </a>
 
             <!-- TFG Card -->
-            <div
-                class="group bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-amber-500 transition-all hover:-translate-y-1">
+            <a href="#"
+                class="group bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-amber-500 transition-all hover:-translate-y-1 block cursor-default">
                 <div class="p-8">
                     <div class="flex justify-between items-start mb-6">
                         <i data-lucide="plane" class="w-10 h-10 text-amber-500"></i>
@@ -500,11 +500,11 @@
                                 Proposal</span>
                         </div>
                     </div>
-                    <a href="#" class="block group cursor-default">
+                    <div class="block group">
                         <h3 class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-colors">
                             Autonomous Drone Tracking
                         </h3>
-                    </a>
+                    </div>
                     <p class="text-slate-400 text-sm mb-6">
                         Future proposal for an autonomous drone system capable of real-time object tracking using
                         on-board processing.
@@ -517,7 +517,7 @@
                         <span class="bg-amber-900/30 px-2 py-1 rounded">PX4</span>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
