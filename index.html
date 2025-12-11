@@ -94,17 +94,68 @@
             </div>
             <div class="flex justify-center relative">
                 <div class="absolute inset-0 bg-purple-600 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-                <div
-                    class="relative bg-slate-800 p-8 rounded-2xl border border-slate-700 glow-purple rotate-3 hover:rotate-0 transition-all duration-500">
-                    <i data-lucide="cpu" class="w-32 h-32 text-purple-400"></i>
-                    <div class="mt-4 font-mono text-sm text-slate-400">
-                        <span class="text-purple-400">const</span> passion = <span
-                            class="text-green-400">"Robotics"</span>;<br>
-                        <span class="text-purple-400">while</span>(alive) {<br>
-                        &nbsp;&nbsp;build();<br>
-                        &nbsp;&nbsp;learn();<br>
-                        }
+                <div <div
+                    class="relative bg-slate-900 p-6 rounded-2xl border border-slate-700 glow-purple w-full max-w-sm rotate-3 hover:rotate-0 transition-all duration-500">
+                    <!-- Header del HUD -->
+                    <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-xs font-mono text-green-500">SYSTEM: ONLINE</span>
+                        </div>
+                        <span class="text-xs font-mono text-slate-500">v2.4.0</span>
                     </div>
+
+                    <!-- Métricas del Sistema -->
+                    <div class="space-y-4 font-mono text-xs">
+
+                        <!-- Módulo 1 -->
+                        <div>
+                            <div class="flex justify-between text-slate-400 mb-1">
+                                <span>> Computer_Vision</span>
+                                <span class="text-purple-400">98%</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5">
+                                <div class="bg-purple-500 h-1.5 rounded-full" style="width: 98%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Módulo 2 -->
+                        <div>
+                            <div class="flex justify-between text-slate-400 mb-1">
+                                <span>> ROS_Bridge_Status</span>
+                                <span class="text-green-400">CONNECTED</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5">
+                                <div class="bg-green-500 h-1.5 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Módulo 3 -->
+                        <div>
+                            <div class="flex justify-between text-slate-400 mb-1">
+                                <span>> Hardware_Integration</span>
+                                <span class="text-cyan-400">OPTIMIZED</span>
+                            </div>
+                            <div class="w-full bg-slate-800 rounded-full h-1.5">
+                                <div class="bg-cyan-500 h-1.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Consola Log -->
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-slate-500 space-y-1">
+                            <p>>> Loading modules...</p>
+                            <p>>> <span class="text-purple-400">TensorFlow</span> initialized.</p>
+                            <p>>> <span class="text-orange-400">Kinova_Driver</span> ready.</p>
+                            <p class="animate-pulse">_</p>
+                        </div>
+
+                    </div>
+
+                    <!-- Decoraciones de esquinas para efecto HUD -->
+                    <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-slate-500 -mt-1 -ml-1"></div>
+                    <div class="absolute top-0 right-0 w-3 h-3 border-t border-r border-slate-500 -mt-1 -mr-1"></div>
+                    <div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-slate-500 -mb-1 -ml-1"></div>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-slate-500 -mb-1 -mr-1"></div>
                 </div>
             </div>
         </div>
@@ -169,8 +220,12 @@
                         <a href="#" class="text-slate-400 hover:text-white"><i data-lucide="github"
                                 class="w-5 h-5"></i></a>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
-                        MathSolver AI</h3>
+                    <a href="mathsolver.html" class="block group">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
+                            MathSolver AI <span class="text-xs ml-2 text-slate-500 font-normal font-mono">↗ Read Case
+                                Study</span>
+                        </h3>
+                    </a>
                     <p class="text-slate-400 text-sm mb-6">
                         App that scans handwritten equations via camera and solves them in real-time.
                         Uses a hybrid model (<strong>CNN + SVM</strong>) to optimize accuracy despite a limited dataset.
@@ -187,11 +242,18 @@
                 <div class="p-8">
                     <div class="flex justify-between items-start mb-6">
                         <i data-lucide="glasses" class="w-10 h-10 text-pink-500"></i>
-                        <a href="#" class="text-slate-400 hover:text-white"><i data-lucide="github"
-                                class="w-5 h-5"></i></a>
+                        <div class="flex gap-3">
+                            <span
+                                class="text-xs text-amber-500 border border-amber-500/30 px-2 py-0.5 rounded bg-amber-500/10 self-start">Private
+                                Repo</span>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
-                        VR Kinova Teleoperation</h3>
+                    <a href="kinova.html" class="block group">
+                        <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">
+                            VR Kinova Teleoperation <span class="text-xs ml-2 text-slate-500 font-normal font-mono">↗
+                                Read Case Study</span>
+                        </h3>
+                    </a>
                     <p class="text-slate-400 text-sm mb-6">
                         Immersive VR interface to control a 6-DOF Kinova MICO2 robot.
                         Implements a <strong>"Digital Twin"</strong> system for trajectory planning using
@@ -208,7 +270,7 @@
     </section>
 
     <footer class="py-8 text-center text-slate-500 text-sm bg-[#0b0f19] border-t border-slate-800">
-        <p>Built with Antigravity by Hugo Sevilla.</p>
+        <p>hugosema.19@gmail.com | +34647731252</p>
     </footer>
 
     <script> lucide.createIcons(); </script>
