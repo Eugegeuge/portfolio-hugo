@@ -266,8 +266,10 @@
                         <span class="text-xs font-mono text-slate-500">ROS 2</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group/icon">
-                        <img src="unity.png" alt="Unity"
-                            class="w-9 h-9 opacity-60 grayscale group-hover/icon:grayscale-0 group-hover/icon:opacity-100 transition-all">
+                        <!-- Unity Icon via CSS Mask -->
+                        <div class="w-9 h-9 bg-slate-400 group-hover/icon:bg-white transition-colors"
+                            style="-webkit-mask-image: url('unity.png'); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; -webkit-mask-position: center; mask-image: url('unity.png'); mask-size: contain; mask-repeat: no-repeat; mask-position: center;">
+                        </div>
                         <span class="text-xs font-mono text-slate-500">Unity</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group/icon">
