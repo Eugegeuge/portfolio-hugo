@@ -261,8 +261,35 @@ print(f"Solution: {solution}")</code></pre>
             </div>
         </section>
 
+        <!-- Current State & Limitations -->
+        <section class="mt-16 bg-amber-900/10 border border-amber-500/20 rounded-2xl p-8">
+            <div class="flex items-start gap-4">
+                <div class="p-3 bg-amber-900/20 rounded-lg text-amber-500">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-white mb-2">Current State: Prototype Phase</h2>
+                    <p class="text-slate-400 mb-4 leading-relaxed">
+                        This project is currently in a <strong>primitive state</strong>. The main limitation of the
+                        current version
+                        is the strict requirement for color separation: digits must be written in distinct colors from
+                        symbols
+                        (e.g., black numbers, red operators) for the heuristic segmentation to work.
+                    </p>
+                    <div class="bg-amber-500/5 rounded-lg p-4 border border-amber-500/10">
+                        <h4 class="text-amber-400 font-mono text-sm font-bold mb-1">Roadmap / Future Work</h4>
+                        <p class="text-slate-500 text-sm">
+                            The next major update will focus on replacing the color-based heuristic with a robust
+                            <strong>End-to-End OCR model</strong> (such as a CRNN or Transformer) capable of recognizing
+                            full equations in monochrome, making the app completely functional for real-world use.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Project Info Footer -->
-        <section class="border-t border-slate-800 pt-12">
+        <section class="border-t border-slate-800 pt-12 mt-12">
             <h3 class="text-white font-bold mb-4">Project Team</h3>
             <div class="flex flex-wrap gap-4 text-sm text-slate-400">
                 <a href="index.html"
