@@ -122,15 +122,52 @@
 
         // --- Core Functions ---
 
-        function getDir(pathArray) {
-            let current = fileSystem['/home/visitor']; // Root is effectively /home/visitor for simplicity in this version, but let's traverse properly if we expanded.
+        // Helper to retrieve node from path array
+        function getNode(pathArray) {
+            // Root validation: restricted to /home/visitor for this demo
+            if (pathArray.length < 2 || pathArray[0] !== 'home' || pathArray[1] !== 'visitor') return null;
 
-            // For this simple version, we only have root and 'projects' folder inside root.
-            // Simplified traversal logic:
-            if (pathArray.length === 2 && pathArray[0] === 'home' && pathArray[1] === 'visitor') return fileSystem['/home/visitor'];
-            if (pathArray.length === 3 && pathArray[2] === 'projects') return fileSystem['/home/visitor'].children['projects'];
+            let node = fileSystem['/home/visitor'];
+            // Iterate from index 2 (after home/visitor)
+            for (let i = 2; i < pathArray.length; i++) {
+                if (node.type !== 'dir' || !node.children) return null; // Can't traverse non-dir
+                const name = pathArray[i];
+                if (!node.children[name]) return null; // Child not found
+                node = node.children[name];
+            }
+            return node;
+        }
 
-            return null;
+        // Robust Path Resolver
+        function resolvePath(pathStr) {
+            // Normalize slashes
+            pathStr = pathStr.trim();
+            if (!pathStr) return { path: [...currentPath], node: getNode(currentPath) };
+
+            const parts = pathStr.split('/').filter(p => p.length > 0);
+            let resolvedPath = [...currentPath];
+
+            // Handle root or home alias
+            if (pathStr.startsWith('/')) {
+                // Treat / as /home/visitor (virtual root)
+                resolvedPath = ['home', 'visitor'];
+            } else if (parts.length > 0 && parts[0] === '~') {
+                resolvedPath = ['home', 'visitor'];
+                parts.shift();
+            }
+
+            // Iterate parts
+            for (let part of parts) {
+                if (part === '.') continue; // Check ./ implicitly done here
+                if (part === '..') {
+                    if (resolvedPath.length > 2) resolvedPath.pop();
+                } else {
+                    resolvedPath.push(part);
+                }
+            }
+
+            const node = getNode(resolvedPath);
+            return { path: resolvedPath, node: node };
         }
 
         function print(text, type = 'normal') {
@@ -175,7 +212,7 @@
                             <div class="text-purple-400 mb-2">Available commands:</div>
                             <div class="grid grid-cols-[120px_1fr] gap-2">
                                 <span class="text-green-400">ls, ll, dir</span> <span class="text-slate-400">List directory contents</span>
-                                <span class="text-green-400">cd [dir]</span> <span class="text-slate-400">Change directory (e.g. cd projects)</span>
+                                <span class="text-green-400">cd [dir]</span> <span class="text-slate-400">Change directory</span>
                                 <span class="text-green-400">cat [file]</span> <span class="text-slate-400">Show file content</span>
                                 <span class="text-green-400">./[file]</span> <span class="text-slate-400">Execute/Open file</span>
                                 <span class="text-green-400">clear</span> <span class="text-slate-400">Clear terminal screen</span>
@@ -194,57 +231,33 @@
                 case 'ls':
                 case 'll':
                 case 'dir':
-                    let dir = null;
-                    let targetName = "";
-                    if (args.length > 0) {
-                        targetName = args[0].endsWith('/') ? args[0].slice(0, -1) : args[0];
-                        // Handle relative paths basically
-                        if (targetName === '..') {
-                            // Assuming simple parent nav
-                            // Implementing real path resolution is complex here, but user asked for "ls projects"
-                            if (currentPath.length > 2) {
-                                // We are deep, parent is 'home/visitor', listing 'home/visitor'
-                                dir = fileSystem['/home/visitor'];
-                            } else {
-                                dir = getDir(currentPath); // Root has no parent really in this restricted fs
-                            }
+                    let targetPath = args.length > 0 ? args[0] : ".";
+                    let resLs = resolvePath(targetPath);
+                    if (resLs.node) {
+                        if (resLs.node.type === 'dir') {
+                            const files = Object.keys(resLs.node.children).map(name => {
+                                const isDir = resLs.node.children[name].type === 'dir';
+                                return isDir ? `<span class="text-blue-400 font-bold">${name}/</span>` : `<span class="text-green-300">${name}</span>`;
+                            });
+                            printHTML(files.join('  '));
                         } else {
-                            // Check if argument is a child dir of current
-                            const currentDirObj = getDir(currentPath);
-                            if (currentDirObj.children[targetName] && currentDirObj.children[targetName].type === 'dir') {
-                                dir = currentDirObj.children[targetName];
-                            } else {
-                                print(`ls: cannot access '${targetName}': No such file or directory`, 'error');
-                            }
+                            // Listing a file usually just shows the file name, maybe with permissions in real ls -l
+                            // Here just print the name
+                            printHTML(`<span class="text-green-300">${resLs.path[resLs.path.length - 1]}</span>`);
                         }
                     } else {
-                        // Current dir
-                        dir = getDir(currentPath);
-                    }
-
-                    if (dir) {
-                        const files = Object.keys(dir.children).map(name => {
-                            const isDir = dir.children[name].type === 'dir';
-                            return isDir ? `<span class="text-blue-400 font-bold">${name}/</span>` : `<span class="text-green-300">${name}</span>`;
-                        });
-                        printHTML(files.join('  '));
+                        print(`ls: cannot access '${targetPath}': No such file or directory`, 'error');
                     }
                     break;
 
                 case 'cd':
-                    if (args.length === 0 || args[0] === '~') {
-                        currentPath = ['home', 'visitor'];
-                    } else if (args[0] === '..') {
-                        if (currentPath.length > 2) currentPath.pop();
+                    let cdPath = args.length > 0 ? args[0] : "~";
+                    let resCd = resolvePath(cdPath);
+                    if (resCd.node && resCd.node.type === 'dir') {
+                        currentPath = resCd.path;
                     } else {
-                        // Strip trailing slash
-                        let targetDir = args[0].endsWith('/') ? args[0].slice(0, -1) : args[0];
-                        if (targetDir === 'projects') {
-                            if (currentPath.length === 2) currentPath.push('projects');
-                            else print("No such directory", 'error');
-                        } else {
-                            print(`cd: ${args[0]}: No such file or directory`, 'error');
-                        }
+                        if (!resCd.node) print(`cd: ${cdPath}: No such file or directory`, 'error');
+                        else print(`cd: ${cdPath}: Not a directory`, 'error');
                     }
                     updatePrompt();
                     break;
@@ -254,13 +267,13 @@
                         print("usage: cat [file]", 'info');
                         return;
                     }
-                    const activeDir = getDir(currentPath);
-                    const file = activeDir.children[args[0]];
-                    if (file && file.type === 'file') {
-                        if (file.content) print(file.content);
+                    let resCat = resolvePath(args[0]);
+                    if (resCat.node && resCat.node.type === 'file') {
+                        if (resCat.node.content) print(resCat.node.content);
                         else print("[Binary File] Cannot display content", 'error');
                     } else {
-                        print(`cat: ${args[0]}: No such file`, 'error');
+                        if (!resCat.node) print(`cat: ${args[0]}: No such file`, 'error');
+                        else print(`cat: ${args[0]}: Is a directory`, 'error');
                     }
                     break;
 
@@ -293,62 +306,42 @@
                     break;
 
                 default:
-                    // Handle ./script or python script or file open
-                    // Handle ./script or python script or file open
-                    // Fix: Support ./projects/file paths
-                    let targetPath = cmd;
-                    if (cmd.startsWith('./')) targetPath = cmd.substring(2);
+                    // Handle explicit ./script or just script name if in current dir
+                    // Try to resolve as path first
+                    let execRes = resolvePath(cmd);
 
-                    // Simple path parsing [dir]/[file]
-                    let parts = targetPath.split('/');
-                    let resolvedFile = null;
-                    let resolvedFileName = "";
+                    // If it resolves to a file, execute it
+                    if (execRes.node && execRes.node.type === 'file') {
+                        let file = execRes.node;
+                        let fileName = execRes.path[execRes.path.length - 1];
 
-                    if (parts.length === 1) {
-                        // File in current dir
-                        resolvedFileName = parts[0];
-                        resolvedFile = getDir(currentPath).children[resolvedFileName];
-                    } else if (parts.length === 2) {
-                        // dir/file (e.g. projects/mathsolver.py)
-                        let dirName = parts[0];
-                        let fileName = parts[1];
-                        let currentDirObj = getDir(currentPath);
-
-                        // Check if dirName exists in current path
-                        if (currentDirObj.children[dirName] && currentDirObj.children[dirName].type === 'dir') {
-                            resolvedFile = currentDirObj.children[dirName].children[fileName];
-                            resolvedFileName = fileName;
-                        }
-                    }
-
-                    if (resolvedFile) {
-                        if (resolvedFile.type === 'dir') {
-                            print(`${resolvedFileName}: Is a directory`, 'error');
-                        } else if (resolvedFile.action === 'navigate') {
-                            print(`Executing ${resolvedFileName}...`, 'success');
-                            setTimeout(() => window.location.href = resolvedFile.url, 800);
-                        } else if (resolvedFile.action === 'download') {
-                            print(`Downloading ${resolvedFileName}...`, 'success');
+                        if (file.action === 'navigate') {
+                            print(`Executing ${fileName}...`, 'success');
+                            setTimeout(() => window.location.href = file.url, 800);
+                        } else if (file.action === 'download') {
+                            print(`Downloading ${fileName}...`, 'success');
                             const link = document.createElement('a');
-                            link.href = resolvedFile.url;
+                            link.href = file.url;
                             link.download = '';
                             link.click();
                         } else {
-                            // Just cat it if it has content
-                            if (resolvedFile.content) print(resolvedFile.content);
+                            // Treat as cat/execute text script
+                            if (file.content) print(file.content);
                             else print("Execution finished.", 'success');
                         }
-                    } else {
-                        // Fallback check if it was open/python command
-                        if (cmd === 'python' || cmd === 'bash' || cmd === 'open') {
-                            // Re-run logic for arg[0]
-                            let subCmd = args[0];
-                            // quick recursive hack for simple depth
-                            if (subCmd) execute(subCmd);
-                            else print("usage: python [file]", 'info');
+                        return;
+                    }
+
+                    // Fallback: check if user tried `python script.py` or similar
+                    if (cmd === 'python' || cmd === 'bash' || cmd === 'open') {
+                        if (args.length > 0) {
+                            // Recursive call to execute the argument
+                            execute(args[0]);
                         } else {
-                            print(`command not found: ${cmd}`, 'error');
+                            print(`usage: ${cmd} [file]`, 'info');
                         }
+                    } else {
+                        print(`command not found: ${cmd}`, 'error');
                     }
             }
         }
@@ -366,8 +359,11 @@
                 const parts = val.split(' ');
                 const lastWord = parts[parts.length - 1];
 
-                // Autocomplete Commands (if first word AND not checking path like ./)
-                if (parts.length === 1 && !lastWord.startsWith('./') && !lastWord.startsWith('.')) {
+                // Autocomplete Commands logic
+                // If simple word and no path indicators
+                const isPath = lastWord.includes('/') || lastWord === '.' || lastWord === '..';
+
+                if (parts.length === 1 && !isPath) {
                     const commands = ['help', 'ls', 'cd', 'cat', 'clear', 'whoami', 'exit', 'reboot', 'matrix', 'open', 'python', 'bash'];
                     const matches = commands.filter(c => c.startsWith(lastWord));
                     if (matches.length === 1) {
@@ -383,61 +379,66 @@
                             ${commands.map(m => `<span>${m}</span>`).join('')}
                         </div>`);
                     }
-                }
-                // Autocomplete Files/Dirs (if argument or explicit executable path)
-                else {
-                    let dir = getDir(currentPath);
+                } else {
+                    // Path Autocomplete
+                    // We need to resolve the directory part of the lastWord to find candidates
+                    // lastWord could be: "projects/" -> dir="projects", prefix=""
+                    // "projects/ki" -> dir="projects", prefix="ki"
+                    // "./" -> dir=".", prefix=""
+                    // "ki" -> dir=".", prefix="ki"
+
+                    let dirPathStr = ".";
                     let searchPrefix = lastWord;
-                    let pathPrefix = "";
 
-                    // Handle execution syntax ./
-                    if (lastWord.startsWith('./')) {
-                        searchPrefix = lastWord.substring(2);
-                        pathPrefix = "./";
+                    if (lastWord.lastIndexOf('/') !== -1) {
+                        const lastSlash = lastWord.lastIndexOf('/');
+                        dirPathStr = lastWord.substring(0, lastSlash + 1); // include slash for resolving
+                        searchPrefix = lastWord.substring(lastSlash + 1);
+                    } else {
+                        // searchPrefix is the whole word, dir is current
                     }
 
-                    // Check for nested path (e.g. projects/)
-                    if (searchPrefix.includes('/')) {
-                        const lastSlashIndex = searchPrefix.lastIndexOf('/');
-                        const dirPart = searchPrefix.substring(0, lastSlashIndex);
-                        const filePart = searchPrefix.substring(lastSlashIndex + 1);
+                    // Resolve the directory
+                    const res = resolvePath(dirPathStr);
 
-                        // Try to traverse to dirPart
-                        if (dir && dir.children[dirPart] && dir.children[dirPart].type === 'dir') {
-                            dir = dir.children[dirPart];
-                            searchPrefix = filePart;
-                            pathPrefix += dirPart + '/';
-                        } else {
-                            dir = null;
-                        }
-                    }
-
-                    if (dir) {
-                        const candidates = Object.keys(dir.children);
+                    if (res.node && res.node.type === 'dir') {
+                        const candidates = Object.keys(res.node.children);
                         const matches = candidates.filter(c => c.startsWith(searchPrefix));
 
+                        // Prefix for replacement
+                        // If user typed "projects/ki", replacement should be "projects/kinova..."
+                        // dirPathStr is "projects/"
+
+                        // Special case: if dirPathStr is just ".", we don't want to prefix "." unless user typed it?
+                        // If user typed "ki", dirPathStr=".", we replace "ki" with "kinova..."
+                        // If user typed "./ki", dirPathStr="./", we replace "./ki" with "./kinova..."
+                        // So we just prepend dirPathStr IF it was part of input?
+
+                        let replacementPrefix = "";
+                        if (lastWord.lastIndexOf('/') !== -1) {
+                            replacementPrefix = dirPathStr;
+                        }
+
                         if (matches.length === 1) {
-                            parts[parts.length - 1] = pathPrefix + matches[0];
-                            // If it's a directory, add a slash? asd
-                            const resolvedName = matches[0];
-                            if (dir.children[resolvedName].type === 'dir') {
+                            parts[parts.length - 1] = replacementPrefix + matches[0];
+                            if (res.node.children[matches[0]].type === 'dir') {
                                 parts[parts.length - 1] += '/';
                             }
                             inputField.value = parts.join(' ');
                         } else if (matches.length > 1) {
                             printHTML(`<div class="border-b border-dashed border-slate-700 mb-2"></div>
                             <div class="text-slate-500 text-xs mb-2 grid grid-cols-4 gap-2">
-                                ${matches.map(m => `<span>${pathPrefix + m}</span>`).join('')}
+                                ${matches.map(m => `<span>${replacementPrefix + m}</span>`).join('')}
                             </div>`);
                         } else if (searchPrefix.trim() === '') {
-                            // User typed "projects/" and hit tab -> list all contents
                             printHTML(`<div class="border-b border-dashed border-slate-700 mb-2"></div>
                             <div class="text-slate-500 text-xs mb-2 grid grid-cols-4 gap-2">
-                                ${candidates.map(m => `<span>${pathPrefix + m}</span>`).join('')}
+                                ${candidates.map(m => `<span>${replacementPrefix + m}</span>`).join('')}
                             </div>`);
                         }
                     }
                 }
+
             } else if (e.key === 'Enter') {
                 const val = inputField.value;
                 if (val.trim()) execute(val);
