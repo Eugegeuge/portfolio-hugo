@@ -77,10 +77,10 @@
                 <i data-lucide="arrow-left" class="w-5 h-5"></i> Back to Portfolio
             </a>
             <div class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#"
-                    class="text-slate-500 hover:text-cyan-400 transition-colors flex items-center gap-2 cursor-not-allowed"
-                    title="Repo Private">
-                    <i data-lucide="lock" class="w-4 h-4"></i> Private Repo
+                <a href="https://github.com/PMP2448/Virtual-Kinova-Interface" target="_blank"
+                    class="text-slate-500 hover:text-cyan-400 transition-colors flex items-center gap-2"
+                    title="View Source Code">
+                    <i data-lucide="github" class="w-4 h-4"></i> View Repository
                 </a>
             </div>
         </div>
@@ -198,9 +198,10 @@
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">TCP/IP Bridge (Python Middleware)</h3>
                             <p class="text-slate-400 text-sm">
-                                A custom Python script <code class="text-yellow-400">vr_tcp_bridge.py</code> listens on
+                                A custom Python script <code class="text-yellow-400">vr_bridge_server.py</code> listens
+                                on
                                 Port 5005. It parses the JSON and publishes ROS messages to internal topics like <code
-                                    class="text-slate-300">/vr/anadir_punto</code>.
+                                    class="text-slate-300">/vr/add_point</code>.
                             </p>
                         </div>
                     </div>
@@ -216,7 +217,7 @@
                         <div>
                             <h3 class="text-xl font-bold text-white mb-2">Trajectory Manager (ROS ActionLib)</h3>
                             <p class="text-slate-400 text-sm">
-                                The node <code class="text-orange-400">gestor_trayectoria_vr.py</code> receives the
+                                The node <code class="text-orange-400">trajectory_manager.py</code> receives the
                                 points and stores them in a queue (Queue System). Upon receiving a "Execute" command, it
                                 sends goals sequentially to the Kinova Driver using ActionLib, ensuring smooth
                                 transitions.
@@ -234,21 +235,21 @@
                     <i data-lucide="code" class="text-green-500"></i> The "Safety Queue" Logic
                 </h3>
                 <pre class="font-mono text-xs text-slate-300 overflow-x-auto">
-<span class="text-purple-400">def</span> <span class="text-yellow-400">ejecutar_trayectoria</span>(self):
-    <span class="text-slate-500"># Validar puntos antes de mover</span>
-    total = len(self.cola_de_puntos)
-    print(f"🚀 Iniciando trayectoria de {total} puntos...")
+<span class="text-purple-400">def</span> <span class="text-yellow-400">execute_trajectory</span>(self):
+    <span class="text-slate-500"># Validate points before moving</span>
+    total = len(self.point_queue)
+    print(f"🚀 Starting trajectory with {total} points...")
 
-    <span class="text-purple-400">for</span> i, pose <span class="text-purple-400">in</span> enumerate(self.cola_de_puntos):
-        <span class="text-slate-500"># Enviar al driver del brazo</span>
+    <span class="text-purple-400">for</span> i, pose <span class="text-purple-400">in</span> enumerate(self.point_queue):
+        <span class="text-slate-500"># Send to Arm Driver</span>
         goal.pose.pose = pose
         self.client.send_goal(goal)
         
-        <span class="text-slate-500"># BLOQUEANTE: Esperar a llegar antes del sig.</span>
+        <span class="text-slate-500"># BLOCKING: Wait for result before next point</span>
         <span class="text-purple-400">if</span> self.client.wait_for_result(timeout=15.0):
-            print(f"✅ Punto {i} alcanzado.")
+            print(f"✅ Point {i} reached.")
         <span class="text-purple-400">else</span>:
-            <span class="text-red-400">abort()</span> <span class="text-slate-500"># Seguridad crítica</span></pre>
+            <span class="text-red-400">abort()</span> <span class="text-slate-500"># Safety Critical Stop</span></pre>
             </div>
             <div class="flex flex-col justify-center">
                 <h3 class="text-xl font-bold text-white mb-4">Why a Queue?</h3>
