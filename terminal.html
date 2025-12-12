@@ -170,16 +170,21 @@
 
             switch (cmd) {
                 case 'help':
-                    print(`
-Available commands:
-  ls, ll        List directory contents
-  cd [dir]      Change directory
-  cat [file]    Show file content
-  ./[file]      Execute file (or open/python/bash)
-  clear         Clear screen
-  whoami        Display user info
-  exit          Return to main site
-`, 'info');
+                    printHTML(`
+                        <div class="space-y-1 mb-2">
+                            <div class="text-purple-400 mb-2">Available commands:</div>
+                            <div class="grid grid-cols-[120px_1fr] gap-2">
+                                <span class="text-green-400">ls, ll, dir</span> <span class="text-slate-400">List directory contents</span>
+                                <span class="text-green-400">cd [dir]</span> <span class="text-slate-400">Change directory (e.g. cd projects)</span>
+                                <span class="text-green-400">cat [file]</span> <span class="text-slate-400">Show file content</span>
+                                <span class="text-green-400">./[file]</span> <span class="text-slate-400">Execute/Open file</span>
+                                <span class="text-green-400">clear</span> <span class="text-slate-400">Clear terminal screen</span>
+                                <span class="text-green-400">whoami</span> <span class="text-slate-400">Display current user</span>
+                                <span class="text-green-400">matrix</span> <span class="text-slate-400">Toggle Matrix effect</span>
+                                <span class="text-green-400">exit</span> <span class="text-slate-400">Return to main portfolio</span>
+                            </div>
+                        </div>
+                    `);
                     break;
 
                 case 'clear':
