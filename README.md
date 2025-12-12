@@ -26,6 +26,7 @@ Any push to the `main` branch triggers an automatic build and deployment to the 
 *   `index.html`: Main landing page (Hero, About, Timeline, Projects, Skills).
 *   `kinova.html`: Deep dive into the VR Teleoperation project (Digital Twin).
 *   `mathsolver.html`: Deep dive into the Computer Vision MathSolver AI.
+*   `terminal.html`: Interactive retro-style terminal interface.
 *   `contact.html`: Contact information and CV downloads.
 *   `context/`: Hidden directory for raw project assets and context files (ignored by git deployment logic).
 
