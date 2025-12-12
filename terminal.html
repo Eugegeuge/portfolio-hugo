@@ -194,15 +194,40 @@
                 case 'ls':
                 case 'll':
                 case 'dir':
-                    const dir = getDir(currentPath);
+                    let dir = null;
+                    let targetName = "";
+                    if (args.length > 0) {
+                        targetName = args[0];
+                        // Handle relative paths basically
+                        if (targetName === '..') {
+                            // Assuming simple parent nav
+                            // Implementing real path resolution is complex here, but user asked for "ls projects"
+                            if (currentPath.length > 2) {
+                                // We are deep, parent is 'home/visitor', listing 'home/visitor'
+                                dir = fileSystem['/home/visitor'];
+                            } else {
+                                dir = getDir(currentPath); // Root has no parent really in this restricted fs
+                            }
+                        } else {
+                            // Check if argument is a child dir of current
+                            const currentDirObj = getDir(currentPath);
+                            if (currentDirObj.children[targetName] && currentDirObj.children[targetName].type === 'dir') {
+                                dir = currentDirObj.children[targetName];
+                            } else {
+                                print(`ls: cannot access '${targetName}': No such file or directory`, 'error');
+                            }
+                        }
+                    } else {
+                        // Current dir
+                        dir = getDir(currentPath);
+                    }
+
                     if (dir) {
                         const files = Object.keys(dir.children).map(name => {
                             const isDir = dir.children[name].type === 'dir';
                             return isDir ? `<span class="text-blue-400 font-bold">${name}/</span>` : `<span class="text-green-300">${name}</span>`;
                         });
                         printHTML(files.join('  '));
-                    } else {
-                        print("Error: Directory not found (System Fault)", 'error');
                     }
                     break;
 
@@ -265,34 +290,61 @@
 
                 default:
                     // Handle ./script or python script or file open
-                    if (cmd.startsWith('./') || cmd === 'python' || cmd === 'bash' || cmd === 'open' || getDir(currentPath).children[cmd]) {
-                        let fileName = cmd.startsWith('./') ? cmd.substring(2) : (cmd === 'python' || cmd === 'bash' || cmd === 'open' ? args[0] : cmd);
+                    // Handle ./script or python script or file open
+                    // Fix: Support ./projects/file paths
+                    let targetPath = cmd;
+                    if (cmd.startsWith('./')) targetPath = cmd.substring(2);
 
-                        const targetDir = getDir(currentPath);
-                        const targetFile = targetDir.children[fileName];
+                    // Simple path parsing [dir]/[file]
+                    let parts = targetPath.split('/');
+                    let resolvedFile = null;
+                    let resolvedFileName = "";
 
-                        if (targetFile) {
-                            if (targetFile.type === 'dir') {
-                                print(`${fileName}: Is a directory`, 'error');
-                            } else if (targetFile.action === 'navigate') {
-                                print(`Executing ${fileName}...`, 'success');
-                                setTimeout(() => window.location.href = targetFile.url, 800);
-                            } else if (targetFile.action === 'download') {
-                                print(`Downloading ${fileName}...`, 'success');
-                                const link = document.createElement('a');
-                                link.href = targetFile.url;
-                                link.download = '';
-                                link.click();
-                            } else {
-                                // Just cat it if it has content
-                                if (targetFile.content) print(targetFile.content);
-                                else print("Execution finished.", 'success');
-                            }
+                    if (parts.length === 1) {
+                        // File in current dir
+                        resolvedFileName = parts[0];
+                        resolvedFile = getDir(currentPath).children[resolvedFileName];
+                    } else if (parts.length === 2) {
+                        // dir/file (e.g. projects/mathsolver.py)
+                        let dirName = parts[0];
+                        let fileName = parts[1];
+                        let currentDirObj = getDir(currentPath);
+
+                        // Check if dirName exists in current path
+                        if (currentDirObj.children[dirName] && currentDirObj.children[dirName].type === 'dir') {
+                            resolvedFile = currentDirObj.children[dirName].children[fileName];
+                            resolvedFileName = fileName;
+                        }
+                    }
+
+                    if (resolvedFile) {
+                        if (resolvedFile.type === 'dir') {
+                            print(`${resolvedFileName}: Is a directory`, 'error');
+                        } else if (resolvedFile.action === 'navigate') {
+                            print(`Executing ${resolvedFileName}...`, 'success');
+                            setTimeout(() => window.location.href = resolvedFile.url, 800);
+                        } else if (resolvedFile.action === 'download') {
+                            print(`Downloading ${resolvedFileName}...`, 'success');
+                            const link = document.createElement('a');
+                            link.href = resolvedFile.url;
+                            link.download = '';
+                            link.click();
+                        } else {
+                            // Just cat it if it has content
+                            if (resolvedFile.content) print(resolvedFile.content);
+                            else print("Execution finished.", 'success');
+                        }
+                    } else {
+                        // Fallback check if it was open/python command
+                        if (cmd === 'python' || cmd === 'bash' || cmd === 'open') {
+                            // Re-run logic for arg[0]
+                            let subCmd = args[0];
+                            // quick recursive hack for simple depth
+                            if (subCmd) execute(subCmd);
+                            else print("usage: python [file]", 'info');
                         } else {
                             print(`command not found: ${cmd}`, 'error');
                         }
-                    } else {
-                        print(`command not found: ${cmd}`, 'error');
                     }
             }
         }
