@@ -18,12 +18,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            900: '#0f172a', /* Fondo Principal */
+                            800: '#1e293b', /* Tarjetas */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #050505;
+            background-color: #0f172a;
             color: #e2e8f0;
             overflow: hidden;
         }
@@ -32,184 +47,162 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Glitch Animation */
+        /* Simplified Glitch Effect */
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
         .glitch {
             position: relative;
             color: white;
-            animation: glitch-skew 1s infinite linear alternate-reverse;
+            font-size: 8rem;
+            font-weight: 700;
+            line-height: 1;
         }
 
-        .glitch::before {
-            content: attr(data-text);
-            position: absolute;
-            left: 2px;
-            text-shadow: -1px 0 #ff00c1;
-            top: 0;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-
+        .glitch::before,
         .glitch::after {
             content: attr(data-text);
             position: absolute;
-            left: -2px;
-            text-shadow: -1px 0 #00fff9;
             top: 0;
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
-        @keyframes glitch-anim {
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip-path: inset(0 0 0 0);
+            /* Fallback */
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00fff9;
+            clip-path: inset(0 0 0 0);
+            /* Fallback */
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
             0% {
-                clip: rect(21px, 9999px, 83px, 0);
+                clip-path: inset(20% 0 80% 0);
             }
 
             20% {
-                clip: rect(66px, 9999px, 8px, 0);
+                clip-path: inset(60% 0 10% 0);
             }
 
             40% {
-                clip: rect(81px, 9999px, 94px, 0);
+                clip-path: inset(40% 0 50% 0);
             }
 
             60% {
-                clip: rect(54px, 9999px, 14px, 0);
+                clip-path: inset(80% 0 5% 0);
             }
 
             80% {
-                clip: rect(64px, 9999px, 98px, 0);
+                clip-path: inset(10% 0 70% 0);
             }
 
             100% {
-                clip: rect(8px, 9999px, 32px, 0);
+                clip-path: inset(30% 0 20% 0);
             }
         }
 
-        @keyframes glitch-anim2 {
+        @keyframes glitch-anim-2 {
             0% {
-                clip: rect(75px, 9999px, 82px, 0);
+                clip-path: inset(10% 0 60% 0);
             }
 
             20% {
-                clip: rect(9px, 9999px, 82px, 0);
+                clip-path: inset(30% 0 20% 0);
             }
 
             40% {
-                clip: rect(60px, 9999px, 20px, 0);
+                clip-path: inset(70% 0 10% 0);
             }
 
             60% {
-                clip: rect(86px, 9999px, 36px, 0);
+                clip-path: inset(20% 0 50% 0);
             }
 
             80% {
-                clip: rect(48px, 9999px, 11px, 0);
+                clip-path: inset(50% 0 30% 0);
             }
 
             100% {
-                clip: rect(56px, 9999px, 59px, 0);
+                clip-path: inset(0% 0 90% 0);
             }
         }
 
-        @keyframes glitch-skew {
-            0% {
-                transform: skew(3deg);
-            }
-
-            10% {
-                transform: skew(-2deg);
-            }
-
-            20% {
-                transform: skew(1deg);
-            }
-
-            30% {
-                transform: skew(0deg);
-            }
-
-            40% {
-                transform: skew(4deg);
-            }
-
-            50% {
-                transform: skew(-1deg);
-            }
-
-            60% {
-                transform: skew(0deg);
-            }
-
-            70% {
-                transform: skew(2deg);
-            }
-
-            80% {
-                transform: skew(-3deg);
-            }
-
-            90% {
-                transform: skew(0deg);
-            }
-
-            100% {
-                transform: skew(0deg);
-            }
+        /* Easter Egg */
+        .secret-zero {
+            display: inline-block;
+            transition: all 0.3s ease;
         }
 
-        /* Easter Egg Hover */
         .secret-zero:hover {
             color: #a855f7;
             /* Purple */
+            text-shadow: 0 0 20px #a855f7;
+            transform: scale(1.1);
             cursor: pointer;
-            text-shadow: 0 0 10px #a855f7;
         }
     </style>
 </head>
 
-<body class="h-screen w-full flex flex-col items-center justify-center relative">
+<body
+    class="bg-slate-900 text-slate-200 h-screen w-full flex flex-col items-center justify-center relative select-none">
 
-    <!-- Background Grid -->
-    <div
-        class="absolute inset-0 bg-[linear-gradient(rgba(18,18,18,0)_1px,transparent_1px),linear-gradient(90deg,rgba(18,18,18,0)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-20 pointer-events-none">
-    </div>
+    <!-- Navbar Fake (Visual Continuity) -->
+    <nav class="absolute top-0 w-full z-50 border-b border-slate-800 opacity-50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="font-bold text-xl font-mono text-slate-600">&lt;Hugo/&gt;</div>
+        </div>
+    </nav>
 
+    <!-- Content -->
     <div class="z-10 text-center px-4">
-        <!-- Main Glitch Text -->
-        <h1 class="text-9xl font-bold font-mono tracking-tighter mb-4 glitch" data-text="404">
-            4<a href="terminal.html" class="secret-zero transition-colors duration-300" title="System Backend">0</a>4
-        </h1>
 
-        <h2 class="text-2xl md:text-3xl font-bold text-red-500 font-mono mb-8 uppercase tracking-widest">
-            <i data-lucide="wifi-off" class="inline w-8 h-8 -mt-1 mr-2"></i>Signal Lost
+        <div class="glitch-wrapper mb-6">
+            <h1 class="glitch font-mono tracking-tighter" data-text="404">
+                4<a href="terminal.html" class="secret-zero relative z-20" title="System Backend">0</a>4
+            </h1>
+        </div>
+
+        <h2
+            class="text-2xl md:text-3xl font-bold text-red-500 font-mono mb-6 uppercase tracking-widest flex items-center justify-center gap-3">
+            <i data-lucide="wifi-off" class="w-8 h-8"></i>
+            Signal Lost
         </h2>
 
-        <p class="text-slate-400 mb-12 max-w-md mx-auto">
-            The requested trajectory is invalid. We seem to have hit a singularity in the space-time continuum.
+        <p class="text-lg text-slate-400 mb-10 max-w-lg mx-auto leading-relaxed">
+            The coordinates you entered are deep in the void. <br>
+            <span class="text-slate-500 text-sm">(Or maybe I just typo'd the URL)</span>
         </p>
 
+        <!-- Botón estilo Index -->
         <a href="index.html"
-            class="group relative px-8 py-3 bg-white text-black font-bold font-mono rounded hover:bg-slate-200 transition-all duration-300 overflow-hidden">
+            class="group relative inline-flex items-center justify-center px-8 py-3 bg-purple-600 font-bold text-white transition-all duration-200 hover:bg-purple-700 hover:shadow-lg hover:shadow-purple-500/25 rounded-lg overflow-hidden">
             <span class="relative z-10 flex items-center gap-2">
-                <i data-lucide="arrow-left" class="w-4 h-4"></i> RETURN TO BASE
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Return to Base
             </span>
-            <div
-                class="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-            </div>
         </a>
     </div>
 
-    <!-- Decoration -->
-    <div class="absolute bottom-8 text-xs text-slate-700 font-mono">
-        ERR_CONNECTION_REFUSED :: 0x00F4
+    <!-- Background Glitchy Text Decoration -->
+    <div class="absolute bottom-8 text-[10px] text-slate-800 font-mono tracking-[0.5em] opacity-40">
+        SYSTEM_FAILURE::NULL_POINTER_EXCEPTION::0xBAD_ACCESS
     </div>
 
     <script>
         lucide.createIcons();
-
-        // Console Easter Egg
-        console.log("%c SYSTEM BREACH DETECTED", "color: #ff0000; font-size: 20px; font-weight: bold; background: #000; padding: 10px;");
-        console.log("Looking for a way out? Try clicking the '0'...");
+        console.log("%c SYSTEM ERROR 0x404", "color: red; font-size: 20px; font-weight: bold; background: #222; padding: 10px;");
+        console.log("Try clicking the zero.");
     </script>
 </body>
 
