@@ -360,7 +360,42 @@
 
         // --- Input Handling ---
         inputField.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                const val = inputField.value;
+                const parts = val.split(' ');
+                const lastWord = parts[parts.length - 1];
+
+                // Autocomplete Commands (if first word)
+                if (parts.length === 1) {
+                    const commands = ['help', 'ls', 'cd', 'cat', 'clear', 'whoami', 'exit', 'reboot', 'matrix', 'open', 'python', 'bash'];
+                    const matches = commands.filter(c => c.startsWith(lastWord));
+                    if (matches.length === 1) {
+                        inputField.value = matches[0] + ' ';
+                    } else if (matches.length > 1) {
+                        // Optional: Show multiple matches? For now just do nothing or complete common prefix
+                    }
+                }
+                // Autocomplete Files/Dirs (if argument)
+                else {
+                    const dir = getDir(currentPath);
+                    if (dir) {
+                        const candidates = Object.keys(dir.children);
+                        // Also add 'projects' manually if we are in root and it's treated special, though getDir handles it.
+                        // Actually getDir returns object. 
+
+                        const matches = candidates.filter(c => c.startsWith(lastWord));
+                        if (matches.length === 1) {
+                            parts[parts.length - 1] = matches[0];
+                            // If it's a directory, add a slash?
+                            if (dir.children[matches[0]].type === 'dir') {
+                                parts[parts.length - 1] += '/';
+                            }
+                            inputField.value = parts.join(' ');
+                        }
+                    }
+                }
+            } else if (e.key === 'Enter') {
                 const val = inputField.value;
                 if (val.trim()) execute(val);
                 inputField.value = '';
