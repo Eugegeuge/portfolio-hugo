@@ -142,13 +142,12 @@
         /* Easter Egg */
         .secret-zero {
             display: inline-block;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .secret-zero:hover {
-            color: #a855f7;
-            /* Purple */
-            text-shadow: 0 0 20px #a855f7;
+            /* color: #a855f7; Removed per user request */
+            /* text-shadow: 0 0 20px #a855f7; Removed per user request */
             transform: scale(1.1);
             cursor: pointer;
         }
@@ -170,7 +169,7 @@
 
         <div class="glitch-wrapper mb-6">
             <h1 class="glitch font-mono tracking-tighter" data-text="404">
-                4<a href="terminal.html" class="secret-zero relative z-20" title="System Backend">0</a>4
+                4<a href="/terminal.html" class="secret-zero relative z-20" title="System Backend">0</a>4
             </h1>
         </div>
 
@@ -186,7 +185,7 @@
         </p>
 
         <!-- Botón estilo Index -->
-        <a href="index.html"
+        <a href="/index.html"
             class="group relative inline-flex items-center justify-center px-8 py-3 bg-purple-600 font-bold text-white transition-all duration-200 hover:bg-purple-700 hover:shadow-lg hover:shadow-purple-500/25 rounded-lg overflow-hidden">
             <span class="relative z-10 flex items-center gap-2">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Return to Base
