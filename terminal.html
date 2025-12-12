@@ -386,29 +386,51 @@
                 }
                 // Autocomplete Files/Dirs (if argument)
                 else {
-                    const dir = getDir(currentPath);
+                    let dir = getDir(currentPath);
+                    let searchPrefix = lastWord;
+                    let pathPrefix = "";
+
+                    // Check for nested path (e.g. projects/)
+                    if (lastWord.includes('/')) {
+                        const lastSlashIndex = lastWord.lastIndexOf('/');
+                        const dirPart = lastWord.substring(0, lastSlashIndex);
+                        const filePart = lastWord.substring(lastSlashIndex + 1);
+
+                        // Try to traverse to dirPart
+                        // Assuming simple one-level traversal for now from current dir
+                        // Real implementation would parse paths recursively
+                        if (dir && dir.children[dirPart] && dir.children[dirPart].type === 'dir') {
+                            dir = dir.children[dirPart];
+                            searchPrefix = filePart;
+                            pathPrefix = dirPart + '/';
+                        } else {
+                            // If user typed invalid path, can't complete inside it
+                            dir = null;
+                        }
+                    }
+
                     if (dir) {
                         const candidates = Object.keys(dir.children);
-                        // Also add 'projects' manually if we are in root and it's treated special, though getDir handles it.
-                        // Actually getDir returns object. 
+                        const matches = candidates.filter(c => c.startsWith(searchPrefix));
 
-                        const matches = candidates.filter(c => c.startsWith(lastWord));
                         if (matches.length === 1) {
-                            parts[parts.length - 1] = matches[0];
-                            // If it's a directory, add a slash?
-                            if (dir.children[matches[0]].type === 'dir') {
+                            parts[parts.length - 1] = pathPrefix + matches[0];
+                            // If it's a directory, add a slash? asd
+                            const resolvedName = matches[0];
+                            if (dir.children[resolvedName].type === 'dir') {
                                 parts[parts.length - 1] += '/';
                             }
                             inputField.value = parts.join(' ');
                         } else if (matches.length > 1) {
                             printHTML(`<div class="border-b border-dashed border-slate-700 mb-2"></div>
                             <div class="text-slate-500 text-xs mb-2 grid grid-cols-4 gap-2">
-                                ${matches.map(m => `<span>${m}</span>`).join('')}
+                                ${matches.map(m => `<span>${pathPrefix + m}</span>`).join('')}
                             </div>`);
-                        } else if (lastWord.trim() === '') {
+                        } else if (searchPrefix.trim() === '') {
+                            // User typed "projects/" and hit tab -> list all contents
                             printHTML(`<div class="border-b border-dashed border-slate-700 mb-2"></div>
                             <div class="text-slate-500 text-xs mb-2 grid grid-cols-4 gap-2">
-                                ${candidates.map(m => `<span>${m}</span>`).join('')}
+                                ${candidates.map(m => `<span>${pathPrefix + m}</span>`).join('')}
                             </div>`);
                         }
                     }
