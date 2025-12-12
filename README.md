@@ -1,4 +1,4 @@
-# Hugo Sevilla - Engineering Portfolio 🚀
+# Hugo Sevilla Martínez - Engineering Portfolio 🚀
 
 > **Robotics & AI Engineer | Deep Learning Enthusiast**
 
@@ -30,4 +30,4 @@ Any push to the `main` branch triggers an automatic build and deployment to the 
 *   `contact.html`: Contact information and CV downloads.
 
 ---
-*© 2025 Hugo Sevilla. Built with ❤️ & Code.*
+*© 2025 Hugo Sevilla Martínez. Built with ❤️ & Code.*
