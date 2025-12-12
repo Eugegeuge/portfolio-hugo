@@ -373,7 +373,13 @@
                     if (matches.length === 1) {
                         inputField.value = matches[0] + ' ';
                     } else if (matches.length > 1) {
-                        // Optional: Show multiple matches? For now just do nothing or complete common prefix
+                        printHTML(`<div class="text-slate-500 text-xs mt-1 mb-1 grid grid-cols-4 gap-2">
+                            ${matches.map(m => `<span>${m}</span>`).join('')}
+                        </div>`);
+                    } else if (val.trim() === '') {
+                        printHTML(`<div class="text-slate-500 text-xs mt-1 mb-1 grid grid-cols-4 gap-2">
+                            ${commands.map(m => `<span>${m}</span>`).join('')}
+                        </div>`);
                     }
                 }
                 // Autocomplete Files/Dirs (if argument)
@@ -392,6 +398,14 @@
                                 parts[parts.length - 1] += '/';
                             }
                             inputField.value = parts.join(' ');
+                        } else if (matches.length > 1) {
+                            printHTML(`<div class="text-slate-500 text-xs mt-1 mb-1 grid grid-cols-4 gap-2">
+                                ${matches.map(m => `<span>${m}</span>`).join('')}
+                            </div>`);
+                        } else if (lastWord.trim() === '') {
+                            printHTML(`<div class="text-slate-500 text-xs mt-1 mb-1 grid grid-cols-4 gap-2">
+                                ${candidates.map(m => `<span>${m}</span>`).join('')}
+                            </div>`);
                         }
                     }
                 }
