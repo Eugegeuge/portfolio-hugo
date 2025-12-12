@@ -77,6 +77,7 @@
             clip-path: inset(0 0 0 0);
             /* Fallback */
             animation: glitch-anim-1 2s infinite linear alternate-reverse;
+            pointer-events: none;
         }
 
         .glitch::after {
@@ -85,6 +86,7 @@
             clip-path: inset(0 0 0 0);
             /* Fallback */
             animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            pointer-events: none;
         }
 
         @keyframes glitch-anim-1 {
@@ -138,19 +140,6 @@
                 clip-path: inset(0% 0 90% 0);
             }
         }
-
-        /* Easter Egg */
-        .secret-zero {
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-
-        .secret-zero:hover {
-            /* color: #a855f7; Removed per user request */
-            /* text-shadow: 0 0 20px #a855f7; Removed per user request */
-            transform: scale(1.1);
-            cursor: pointer;
-        }
     </style>
 </head>
 
@@ -167,10 +156,12 @@
     <!-- Content -->
     <div class="z-10 text-center px-4">
 
-        <div class="glitch-wrapper mb-6">
-            <h1 class="glitch font-mono tracking-tighter" data-text="404">
-                4<a href="/terminal.html" class="secret-zero relative z-20" title="System Backend">0</a>4
-            </h1>
+        <div class="glitch-wrapper mb-6 hover:scale-105 transition-transform duration-300">
+            <a href="/terminal.html" class="block decoration-transparent" title="Enter System Backend">
+                <h1 class="glitch font-mono tracking-tighter cursor-pointer" data-text="404">
+                    404
+                </h1>
+            </a>
         </div>
 
         <h2
