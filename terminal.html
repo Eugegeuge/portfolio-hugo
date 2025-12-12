@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hugo/Terminal</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #0b0f19;
+            color: #10b981;
+            /* Emerald 500 */
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background-color: #10b981;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Matrix Effect Canvas */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            opacity: 0.1;
+            pointer-events: none;
+            display: none;
+        }
+
+        .terminal-content {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body
+    class="h-screen w-full overflow-hidden p-4 md:p-8 text-sm md:text-base selection:bg-green-900 selection:text-white">
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="max-w-4xl mx-auto h-full flex flex-col terminal-content">
+        <!-- Output Area -->
+        <div id="output" class="flex-grow overflow-y-auto space-y-1 pb-4 scrollbar-hide">
+            <div class="mb-4">
+                <p>Welcome to Hugo OS v1.0.0 (tty1)</p>
+                <p>System initialized at <span id="boot-time"></span></p>
+                <p>Type <span class="text-white font-bold">'help'</span> to see available commands.</p>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="flex items-center gap-2 pt-2 border-t border-slate-800">
+            <span id="prompt" class="text-purple-400 whitespace-nowrap">visitor@hugo-portfolio:~$</span>
+            <input type="text" id="cmd-input"
+                class="bg-transparent border-none outline-none flex-grow text-white font-mono placeholder-slate-700"
+                autocomplete="off" autofocus spellcheck="false">
+        </div>
+    </div>
+
+    <script>
+        // --- Virtual File System ---
+        const fileSystem = {
+            '/home/visitor': {
+                type: 'dir',
+                children: {
+                    'about_me.txt': { type: 'file', content: "My name is Hugo Sevilla. I am a Robotics Engineer passionate about Computer Vision, ROS, and Startups." },
+                    'contact_info.txt': { type: 'file', content: "Email: hugosema.19@gmail.com\nPhone: +34 647 73 12 52\nLinkedIn: linkedin.com/in/hugo-sevilla\nGitHub: github.com/Eugegeuge" },
+                    'technical_skills.log': { type: 'file', content: "[INFO] Loaded Modules:\n- Python (Expert)\n- ROS 2 (Advanced)\n- C++ (Intermediate)\n- Computer Vision (OpenCV, TensorFlow)\n- Unity 3D & VR" },
+                    'cv_full.pdf': { type: 'file', action: 'download', url: 'CV-en.pdf' },
+                    'projects': {
+                        type: 'dir',
+                        children: {
+                            'kinova_vr.sh': { type: 'file', action: 'navigate', url: 'kinova.html' },
+                            'mathsolver_ai.py': { type: 'file', action: 'navigate', url: 'mathsolver.html' },
+                            'drone_autonomous.md': { type: 'file', content: "# Autonomous Drone Tracking\n\nProposed TFG project focusing on Edge AI object tracking on a quadcopter." }
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- State ---
+        let currentPath = ['home', 'visitor'];
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        // --- DOM Elements ---
+        const outputDiv = document.getElementById('output');
+        const inputField = document.getElementById('cmd-input');
+        const promptSpan = document.getElementById('prompt');
+        const bootTimeSpan = document.getElementById('boot-time');
+
+        // Initialize
+        bootTimeSpan.innerText = new Date().toLocaleString();
+        inputField.focus();
+
+        // Keep focus
+        document.addEventListener('click', () => inputField.focus());
+
+        // --- Core Functions ---
+
+        function getDir(pathArray) {
+            let current = fileSystem['/home/visitor']; // Root is effectively /home/visitor for simplicity in this version, but let's traverse properly if we expanded.
+
+            // For this simple version, we only have root and 'projects' folder inside root.
+            // Simplified traversal logic:
+            if (pathArray.length === 2 && pathArray[0] === 'home' && pathArray[1] === 'visitor') return fileSystem['/home/visitor'];
+            if (pathArray.length === 3 && pathArray[2] === 'projects') return fileSystem['/home/visitor'].children['projects'];
+
+            return null;
+        }
+
+        function print(text, type = 'normal') {
+            const line = document.createElement('div');
+            if (type === 'error') line.className = 'text-red-400';
+            else if (type === 'success') line.className = 'text-green-400';
+            else if (type === 'info') line.className = 'text-blue-400';
+            else line.className = 'text-slate-300 whitespace-pre-wrap';
+
+            line.textContent = text;
+            outputDiv.appendChild(line);
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        }
+
+        function printHTML(html) {
+            const line = document.createElement('div');
+            line.innerHTML = html;
+            outputDiv.appendChild(line);
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        }
+
+        function execute(cmdRaw) {
+            const cmdParts = cmdRaw.trim().split(/\s+/);
+            const cmd = cmdParts[0].toLowerCase();
+            const args = cmdParts.slice(1);
+
+            // Print Command Echo
+            const promptText = promptSpan.innerText;
+            const echo = document.createElement('div');
+            echo.innerHTML = `<span class="text-purple-400">${promptText}</span> <span class="text-white">${cmdRaw}</span>`;
+            outputDiv.appendChild(echo);
+
+            if (!cmd) return;
+
+            commandHistory.push(cmdRaw);
+            historyIndex = commandHistory.length;
+
+            switch (cmd) {
+                case 'help':
+                    print(`
+Available commands:
+  ls, ll        List directory contents
+  cd [dir]      Change directory
+  cat [file]    Show file content
+  ./[file]      Execute file (or open/python/bash)
+  clear         Clear screen
+  whoami        Display user info
+  exit          Return to main site
+`, 'info');
+                    break;
+
+                case 'clear':
+                    outputDiv.innerHTML = '';
+                    break;
+
+                case 'ls':
+                case 'll':
+                case 'dir':
+                    const dir = getDir(currentPath);
+                    if (dir) {
+                        const files = Object.keys(dir.children).map(name => {
+                            const isDir = dir.children[name].type === 'dir';
+                            return isDir ? `<span class="text-blue-400 font-bold">${name}/</span>` : `<span class="text-green-300">${name}</span>`;
+                        });
+                        printHTML(files.join('  '));
+                    } else {
+                        print("Error: Directory not found (System Fault)", 'error');
+                    }
+                    break;
+
+                case 'cd':
+                    if (args.length === 0 || args[0] === '~') {
+                        currentPath = ['home', 'visitor'];
+                    } else if (args[0] === '..') {
+                        if (currentPath.length > 2) currentPath.pop();
+                    } else if (args[0] === 'projects') {
+                        if (currentPath.length === 2) currentPath.push('projects');
+                        else print("No such directory", 'error');
+                    } else {
+                        print(`cd: ${args[0]}: No such file or directory`, 'error');
+                    }
+                    updatePrompt();
+                    break;
+
+                case 'cat':
+                    if (args.length === 0) {
+                        print("usage: cat [file]", 'info');
+                        return;
+                    }
+                    const activeDir = getDir(currentPath);
+                    const file = activeDir.children[args[0]];
+                    if (file && file.type === 'file') {
+                        if (file.content) print(file.content);
+                        else print("[Binary File] Cannot display content", 'error');
+                    } else {
+                        print(`cat: ${args[0]}: No such file`, 'error');
+                    }
+                    break;
+
+                case 'sudo':
+                    print("Permission denied: You are not Hugo.", 'error');
+                    break;
+
+                case 'whoami':
+                    print("visitor@portfolio (v1.0)", 'success');
+                    break;
+
+                case 'exit':
+                    window.location.href = 'index.html';
+                    break;
+
+                case 'reboot':
+                    location.reload();
+                    break;
+
+                case 'matrix':
+                    const canvas = document.getElementById('matrix-canvas');
+                    if (canvas.style.display === 'block') {
+                        canvas.style.display = 'none';
+                        print("Matrix mode deactivated.");
+                    } else {
+                        canvas.style.display = 'block';
+                        startMatrix();
+                        print("Wake up, Neo...", 'success');
+                    }
+                    break;
+
+                default:
+                    // Handle ./script or python script or file open
+                    if (cmd.startsWith('./') || cmd === 'python' || cmd === 'bash' || cmd === 'open' || getDir(currentPath).children[cmd]) {
+                        let fileName = cmd.startsWith('./') ? cmd.substring(2) : (cmd === 'python' || cmd === 'bash' || cmd === 'open' ? args[0] : cmd);
+
+                        const targetDir = getDir(currentPath);
+                        const targetFile = targetDir.children[fileName];
+
+                        if (targetFile) {
+                            if (targetFile.type === 'dir') {
+                                print(`${fileName}: Is a directory`, 'error');
+                            } else if (targetFile.action === 'navigate') {
+                                print(`Executing ${fileName}...`, 'success');
+                                setTimeout(() => window.location.href = targetFile.url, 800);
+                            } else if (targetFile.action === 'download') {
+                                print(`Downloading ${fileName}...`, 'success');
+                                const link = document.createElement('a');
+                                link.href = targetFile.url;
+                                link.download = '';
+                                link.click();
+                            } else {
+                                // Just cat it if it has content
+                                if (targetFile.content) print(targetFile.content);
+                                else print("Execution finished.", 'success');
+                            }
+                        } else {
+                            print(`command not found: ${cmd}`, 'error');
+                        }
+                    } else {
+                        print(`command not found: ${cmd}`, 'error');
+                    }
+            }
+        }
+
+        function updatePrompt() {
+            const pathStr = currentPath.length === 2 ? '~' : '~/' + currentPath.slice(2).join('/');
+            promptSpan.innerText = `visitor@hugo-portfolio:${pathStr}$`;
+        }
+
+        // --- Input Handling ---
+        inputField.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const val = inputField.value;
+                if (val.trim()) execute(val);
+                inputField.value = '';
+            } else if (e.key === 'ArrowUp') {
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    inputField.value = commandHistory[historyIndex];
+                }
+                e.preventDefault();
+            } else if (e.key === 'ArrowDown') {
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    inputField.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    inputField.value = '';
+                }
+                e.preventDefault();
+            }
+        });
+
+        // --- Matrix Effect ---
+        function startMatrix() {
+            const canvas = document.getElementById('matrix-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0F0';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+                if (canvas.style.display === 'block') requestAnimationFrame(draw);
+            }
+            draw();
+        }
+    </script>
+</body>
+
+</html>
