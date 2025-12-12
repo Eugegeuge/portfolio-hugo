@@ -366,8 +366,8 @@
                 const parts = val.split(' ');
                 const lastWord = parts[parts.length - 1];
 
-                // Autocomplete Commands (if first word)
-                if (parts.length === 1) {
+                // Autocomplete Commands (if first word AND not checking path like ./)
+                if (parts.length === 1 && !lastWord.startsWith('./') && !lastWord.startsWith('.')) {
                     const commands = ['help', 'ls', 'cd', 'cat', 'clear', 'whoami', 'exit', 'reboot', 'matrix', 'open', 'python', 'bash'];
                     const matches = commands.filter(c => c.startsWith(lastWord));
                     if (matches.length === 1) {
@@ -384,27 +384,30 @@
                         </div>`);
                     }
                 }
-                // Autocomplete Files/Dirs (if argument)
+                // Autocomplete Files/Dirs (if argument or explicit executable path)
                 else {
                     let dir = getDir(currentPath);
                     let searchPrefix = lastWord;
                     let pathPrefix = "";
 
+                    // Handle execution syntax ./
+                    if (lastWord.startsWith('./')) {
+                        searchPrefix = lastWord.substring(2);
+                        pathPrefix = "./";
+                    }
+
                     // Check for nested path (e.g. projects/)
-                    if (lastWord.includes('/')) {
-                        const lastSlashIndex = lastWord.lastIndexOf('/');
-                        const dirPart = lastWord.substring(0, lastSlashIndex);
-                        const filePart = lastWord.substring(lastSlashIndex + 1);
+                    if (searchPrefix.includes('/')) {
+                        const lastSlashIndex = searchPrefix.lastIndexOf('/');
+                        const dirPart = searchPrefix.substring(0, lastSlashIndex);
+                        const filePart = searchPrefix.substring(lastSlashIndex + 1);
 
                         // Try to traverse to dirPart
-                        // Assuming simple one-level traversal for now from current dir
-                        // Real implementation would parse paths recursively
                         if (dir && dir.children[dirPart] && dir.children[dirPart].type === 'dir') {
                             dir = dir.children[dirPart];
                             searchPrefix = filePart;
-                            pathPrefix = dirPart + '/';
+                            pathPrefix += dirPart + '/';
                         } else {
-                            // If user typed invalid path, can't complete inside it
                             dir = null;
                         }
                     }
