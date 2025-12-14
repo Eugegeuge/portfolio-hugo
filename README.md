@@ -1,4 +1,5 @@
 # Portfolio - Hugo Sevilla Martínez
+> *Status: Active Development 🟢*
 
 This repository contains the source code for my personal engineering portfolio website (`eugegeuge.com`). The project serves as a central hub to showcase my work in **Robotics**, **Artificial Intelligence**, and **Full-Step Development**.
 
