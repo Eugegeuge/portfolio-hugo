@@ -163,12 +163,22 @@ body {
     will-change: transform;
     transform-style: preserve-3d;
     position: relative;
+    /* overflow: hidden; -> Moved to inner content or handled via mask if needed, but let's keep it for now with fixes */
     overflow: hidden;
 
-    /* Fix for jagged edges/border clipping during 3D transform */
+    /* Robuster jagged edge fixes */
     backface-visibility: hidden;
-    -webkit-font-smoothing: subpixel-antialiased;
-    outline: 1px solid transparent;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+
+    /* Force AA */
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
+
+    /* Fix for border-radius clipping in 3D */
+    mask-image: radial-gradient(white, white);
+    -webkit-mask-image: -webkit-radial-gradient(white, white);
 }
 
 /* Smooth return on mouse leave */
