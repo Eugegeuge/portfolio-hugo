@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Engineering Notebook and DevLogs by Hugo Sevilla. Deep dives into Robotics, AI, and Control Systems.">
+    <title>DevLog | Hugo Sevilla</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📓</text></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="assets/css/style.css?v=1.1">
+    <script src="assets/js/tailwind.config.js"></script>
+    <script src="assets/js/theme-toggle.js"></script>
+</head>
+
+<body class="bg-slate-900 text-slate-200 antialiased selection:bg-purple-500 selection:text-white">
+
+    <!-- Background Grid -->
+    <div class="fixed inset-0 tech-grid opacity-20 pointer-events-none z-0"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="font-bold text-xl font-mono text-purple-400">&lt;Hugo/&gt;</a>
+            <div class="flex items-center gap-8 text-sm font-medium">
+                <a href="index.html" class="hover:text-purple-400 transition-colors">Home</a>
+                <span class="text-purple-400 font-bold border-b-2 border-purple-500">DevLog</span>
+                <a href="index.html#contact" class="hover:text-purple-400 transition-colors">Contact</a>
+                <button onclick="toggleCorporateMode()" class="p-2 rounded-full hover:bg-slate-800 transition-colors"
+                    title="Toggle Corporate Mode">
+                    <i id="theme-icon" data-lucide="bot" class="w-5 h-5 text-slate-400"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-32 pb-16 px-6 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                Engineering <span class="text-gradient">Notebook</span>
+            </h1>
+            <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
+                A collection of technical deep-dives, ongoing experiments, and chaos management logs.
+                Less polish, more code.
+            </p>
+        </div>
+    </header>
+
+    <!-- Articles Feed -->
+    <main class="max-w-4xl mx-auto px-6 pb-24 relative z-10">
+        <div class="space-y-8">
+
+            <!-- Post 3: Portfolio V2 -->
+            <article
+                class="group bg-slate-800 rounded-2xl border border-slate-700 p-8 hover:border-purple-500 transition-all tilt-card">
+                <div class="flex flex-col md:flex-row gap-6 justify-between items-start">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-sm font-mono">
+                            <span class="text-purple-400">Dec 16, 2025</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                            <span class="text-slate-400">#WebDev #UI #Refactor</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                            <a href="blog/portfolio-v2.html">Refactoring the Portfolio: 3D Cards & Architecture ✨</a>
+                        </h2>
+                        <p class="text-slate-400 leading-relaxed">
+                            Moving from spaghetti code to a modular architecture. Implementing 3D Tilt effects and
+                            establishing
+                            this DevLog system.
+                        </p>
+                        <a href="blog/portfolio-v2.html"
+                            class="inline-flex items-center text-purple-400 font-mono text-sm hover:underline mt-2">
+                            Read Log <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Post 2: TFG Kickoff -->
+            <article
+                class="group bg-slate-800 rounded-2xl border border-slate-700 p-8 hover:border-amber-500 transition-all tilt-card">
+                <div class="flex flex-col md:flex-row gap-6 justify-between items-start">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-sm font-mono">
+                            <span class="text-amber-400">Dec 16, 2025</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                            <span class="text-slate-400">#Drone #TFG #Architecture</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors">
+                            <a href="blog/tfg-kickoff.html">Kickstarting the Autonomous Drone Project 🚁</a>
+                        </h2>
+                        <p class="text-slate-400 leading-relaxed">
+                            Official start of my Bachelor's Thesis. Analyzing the hardware offsets for a custom drone
+                            build
+                            and deciding between PX4 vs ArduPilot for offboard control via ROS 2.
+                        </p>
+                        <a href="blog/tfg-kickoff.html"
+                            class="inline-flex items-center text-amber-400 font-mono text-sm hover:underline mt-2">
+                            Read Log <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Post 1: Kinova Singularities -->
+            <article
+                class="group bg-slate-800 rounded-2xl border border-slate-700 p-8 hover:border-cyan-500 transition-all tilt-card">
+                <div class="flex flex-col md:flex-row gap-6 justify-between items-start">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-sm font-mono">
+                            <span class="text-cyan-400">Nov 20, 2025</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                            <span class="text-slate-400">#Robotics #Math #Kinematics</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                            <a href="blog/kinova-singularities.html">Fighting Singularities in 6-DOF Manipulators 🦾</a>
+                        </h2>
+                        <p class="text-slate-400 leading-relaxed">
+                            That moment when your Inverse Kinematics solver explodes because determinants are zero.
+                            Implementing Damped Least Squares (DLS) to keep the arm from snapping in VR.
+                        </p>
+                        <a href="blog/kinova-singularities.html"
+                            class="inline-flex items-center text-cyan-400 font-mono text-sm hover:underline mt-2">
+                            Read Log <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Post 0: Portfolio V1 -->
+            <article
+                class="group bg-slate-800 rounded-2xl border border-slate-700 p-8 hover:border-purple-500 transition-all tilt-card">
+                <div class="flex flex-col md:flex-row gap-6 justify-between items-start">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-sm font-mono">
+                            <span class="text-slate-500">Dec 10, 2025</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+                            <span class="text-slate-400">#WebDev #Init</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                            <a href="blog/portfolio-v1.html">Hello World: Building the Portfolio 👋</a>
+                        </h2>
+                        <p class="text-slate-400 leading-relaxed">
+                            Initial commit. Designing a portfolio that reflects "Engineer" rather than "Artist".
+                            Choosing Vanilla HTML/Tailwind over React for pure speed and control.
+                        </p>
+                        <a href="blog/portfolio-v1.html"
+                            class="inline-flex items-center text-purple-400 font-mono text-sm hover:underline mt-2">
+                            Read Log <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center text-slate-500 text-sm bg-slate-950 border-t border-slate-800 relative z-10">
+        <a href="index.html" class="hover:text-purple-400 transition-colors">
+            &larr; Back to Portfolio
+        </a>
+    </footer>
+
+    <!-- Scripts -->
+    <script> lucide.createIcons(); </script>
+    <script src="assets/js/tilt.js"></script>
+</body>
+
+</html>

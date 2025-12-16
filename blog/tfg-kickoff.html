@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kickstarting the Autonomous Drone Project | DevLog</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚁</text></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../assets/css/style.css?v=1.1">
+    <script src="../assets/js/tailwind.config.js"></script>
+    <script src="../assets/js/theme-toggle.js"></script>
+</head>
+
+<body class="bg-slate-900 text-slate-200 antialiased selection:bg-amber-500 selection:text-white">
+
+    <div class="fixed inset-0 tech-grid opacity-20 pointer-events-none z-0"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="../log.html" class="font-mono text-sm text-slate-400 hover:text-white flex items-center gap-2">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Log
+            </a>
+            <button onclick="toggleCorporateMode()" class="p-2 rounded-full hover:bg-slate-800 transition-colors">
+                <i id="theme-icon" data-lucide="bot" class="w-5 h-5 text-slate-400"></i>
+            </button>
+        </div>
+    </nav>
+
+    <article class="pt-32 pb-24 px-6 max-w-3xl mx-auto relative z-10">
+        <!-- Header -->
+        <header class="mb-12 border-b border-slate-800 pb-8">
+            <div class="flex gap-3 text-sm font-mono text-amber-500 mb-4">
+                <span>Dec 16, 2025</span>
+                <span>•</span>
+                <span>Entry #002</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                Kickstarting the Autonomous Drone Project 🚁
+            </h1>
+            <p class="text-xl text-slate-400 leading-relaxed">
+                The Bachelor's Thesis (TFG) begins. Defining the stack for a drone that can track objects entirely
+                on-board.
+            </p>
+        </header>
+
+        <!-- Content -->
+        <div
+            class="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:text-white prose-a:text-amber-400">
+
+            <h3>The Mission</h3>
+            <p>
+                The goal is straightforward but technically heavy: Build a drone capable of <strong>autonomous object
+                    tracking</strong> using only on-board constraints (Power, Computing, Weight). No external motion
+                capture systems, no heavy ground stations.
+            </p>
+
+            <h3>The Stack Dilemma</h3>
+            <p>
+                I spent the last 48 hours deciding between <strong>ArduPilot</strong> and <strong>PX4</strong>.
+            </p>
+            <ul>
+                <li><strong>ArduPilot:</strong> Extremely stable, feature-rich, but the MAVROS integration felt slightly
+                    more "legacy".</li>
+                <li><strong>PX4:</strong> Feels more native to the ROS 2 ecosystem (specially with microXRCE-DDS agent).
+                </li>
+            </ul>
+            <p>
+                <strong>Verdict:</strong> Going with <span class="text-amber-400 font-mono">PX4 + ROS 2 Humble</span>.
+                The integration with offboard control modes via uORB topics seems cleaner for what I want to achieve
+                (Visual Servoing).
+            </p>
+
+            <h3>Processing Unit</h3>
+            <p>
+                I need something that runs ROS 2 and OpenCV but fits on a 450mm frame.
+                <br>
+                <em>Contenders:</em> Jetson Nano vs Raspberry Pi 5.
+                <br>
+                The Pi 5 wins on CPU raw power for compiling nodes directly on the drone, even if the Jetson has better
+                CUDA cores. Since I'm using classic CV (CSRT/KCF trackers) initially before moving to heavy DL, CPU
+                cycles matter more right now.
+            </p>
+
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 my-8">
+                <h4 class="text-white font-mono text-sm mb-2 border-b border-slate-700 pb-2">$/
+                    expected_architecture.yaml</h4>
+                <pre class="font-mono text-sm text-slate-300 overflow-x-auto">
+hardware:
+  flight_controller: "Pixhawk 6C"
+  companion: "Raspberry Pi 5 (8GB)"
+  camera: "Pi Camera Module 3 (Wide)"
+  
+software:
+  os: "Ubuntu 24.04 Server"
+  middleware: "ROS 2 Jazzy"
+  bridge: "MicroXRCE-DDS"
+  vision: "OpenCV 4.x"</pre>
+            </div>
+
+            <h3>Next Steps</h3>
+            <ol>
+                <li>Flash PX4 firmware to the Pixhawk.</li>
+                <li>Config the offboard control switch on the RC transmitter (Safety first!).</li>
+                <li>Hello World: Make the drone takeoff 1m and land via Python script.</li>
+            </ol>
+        </div>
+    </article>
+
+    <script> lucide.createIcons(); </script>
+</body>
+
+</html>
