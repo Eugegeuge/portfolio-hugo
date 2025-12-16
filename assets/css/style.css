@@ -55,8 +55,15 @@ body {
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 /* Glitch Effect (Simplifed Wrapper) */
@@ -99,19 +106,87 @@ body {
 }
 
 @keyframes glitch-anim-1 {
-    0% { clip-path: inset(20% 0 80% 0); }
-    20% { clip-path: inset(60% 0 10% 0); }
-    40% { clip-path: inset(40% 0 60% 0); }
-    60% { clip-path: inset(80% 0 20% 0); }
-    80% { clip-path: inset(10% 0 90% 0); }
-    100% { clip-path: inset(30% 0 70% 0); }
+    0% {
+        clip-path: inset(20% 0 80% 0);
+    }
+
+    20% {
+        clip-path: inset(60% 0 10% 0);
+    }
+
+    40% {
+        clip-path: inset(40% 0 60% 0);
+    }
+
+    60% {
+        clip-path: inset(80% 0 20% 0);
+    }
+
+    80% {
+        clip-path: inset(10% 0 90% 0);
+    }
+
+    100% {
+        clip-path: inset(30% 0 70% 0);
+    }
 }
 
 @keyframes glitch-anim-2 {
-    0% { clip-path: inset(10% 0 90% 0); }
-    20% { clip-path: inset(30% 0 70% 0); }
-    40% { clip-path: inset(10% 0 50% 0); }
-    60% { clip-path: inset(90% 0 10% 0); }
-    80% { clip-path: inset(50% 0 20% 0); }
-    100% { clip-path: inset(0% 0 80% 0); }
+    0% {
+        clip-path: inset(10% 0 90% 0);
+    }
+
+    20% {
+        clip-path: inset(30% 0 70% 0);
+    }
+
+    40% {
+        clip-path: inset(10% 0 50% 0);
+    }
+
+    60% {
+        clip-path: inset(80% 0 20% 0);
+    }
+
+    80% {
+        clip-path: inset(50% 0 20% 0);
+    }
+
+    100% {
+        clip-path: inset(0% 0 80% 0);
+    }
+}
+
+/* --- 3D Tilt Effect --- */
+.tilt-card {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+
+    /* Fix for jagged edges/border clipping during 3D transform */
+    backface-visibility: hidden;
+    -webkit-font-smoothing: subpixel-antialiased;
+    outline: 1px solid transparent;
+}
+
+/* Smooth return on mouse leave */
+.tilt-card:not(:hover) {
+    transition: transform 0.5s ease-out;
+}
+
+.tilt-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 10;
+    border-radius: inherit;
+    /* Follow parent radius */
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }

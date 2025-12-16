@@ -21,11 +21,7 @@ Living document tracking the evolution of `eugegeuge.com`.
 *   **Tech:** `Three.js` (for control) or `<model-viewer>` (Google, simpler).
 *   **Asset:** Kinova Gen2 `.obj` / `.glb` model.
 
-### 2. Corporate Mode (Toggle) 👔
-**Goal:** "Panic Button" for HR/Managers who prefer traditional layouts.
-*   **Action:** Toggle button (Floating or Nav).
-*   **Effect:** Disables Neon/Dark mode. Sets white background, black serif text, removes glitch effects.
-*   **Implementation:** Tailwind class toggle on `<html>`.
+
 
 ### 3. Internationalization (i18n) 🌍
 **Goal:** Structure the site to support Spanish natively.
@@ -48,6 +44,35 @@ Living document tracking the evolution of `eugegeuge.com`.
 ### 6. TFG Drone Integration 🚁
 **Goal:** Prepare portfolio section for the 2026 Drone Tracking project.
 *   **Mockup:** Placeholder section with "Coming Soon" and theoretical architecture.
+
+---
+
+## 🧪 Phase 4: Experimental / Cool "Nice-to-Haves" (Brainstorming)
+
+### 7. Konami Code Easter Egg 🎮
+**Goal:** A secret for the true nerds.
+*   **Action:** User types `↑ ↑ ↓ ↓ ← → ← → B A`.
+*   **Effect:** Confetti, "God Mode" (infinite glitch?), or a hidden retro game overlay.
+
+### 8. 3D Tilt Cards (Apple TV Style) 🧊
+**Goal:** Premium feel for project cards.
+*   **Tech:** Vanilla JS mouse tracking.
+*   **Effect:** Cards tilt slightly towards the cursor, showing a dynamic sheen/reflection.
+
+### 9. "Now Playing" Widget 🎵
+**Goal:** Personality injection.
+*   **Integration:** Last.fm API or Spotify.
+*   **Display:** Small pill in the footer: "Coding to: [Song Name] - [Artist]".
+
+### 10. Fake "System Status" Footer 📟
+**Goal:** Sell the "Terminal/Cyberpunk" fantasy.
+*   **Display:** Small numbers in the footer changing randomly.
+*   **Metrics:** "CPU Temp: 45°C", "Memory: 12GB", "Uptime: 420h".
+
+### 11. PDF Resume Generator 📄
+**Goal:** Utility for recruiters.
+*   **Action:** Button "Print CV" in `contact.html`.
+*   **Tech:** `window.print()` with a specific `@media print` stylesheet that strips the black background and formats it as a clean A4 paper.
 
 ---
 *Maintained by Agent Antigravity*
