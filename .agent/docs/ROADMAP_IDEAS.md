@@ -1,53 +1,53 @@
-# Future Features Brainstorm & Roadmap 🧠🚀
+# 🗺️ Portfolio Roadmap (2025+)
 
-Documento para la evolución del portfolio `eugegeuge.com`.
-Estado: **Fase 2 (Post-Lanzamiento)**
+Living document tracking the evolution of `eugegeuge.com`.
 
-> ✅ **Implementado:**
-> *   Terminal Linux Interactivo (`terminal.html`).
-> *   Analytics y SEO Técnico.
-> *   Estética Cyberpunk v1.0.
-
-## 1. Visor 3D (Three.js/Spline) 🧊
-**Concepto:** Integrar modelos robóticos reales en la web.
-*   **Idea:** Un modelo 3D del brazo **Kinova** o el **Dron** en sus respectivas páginas.
-*   **Interacción:** El usuario puede rotarlo y hacer zoom.
-*   **Tech:** `model-viewer` (Google) para simplicidad o `Three.js` para control total.
-*   **Valor:** Muestra habilidades de CAD y visualización web.
-
-## 2. DevLogs / Cuaderno de Ingeniería 📓
-**Concepto:** Profundizar más allá del "qué" hice, al "cómo" lo resolví.
-*   **Contenido:** Artículos técnicos cortos (Snippets, diagramas de arquitectura).
-*   **Ejemplos:**
-    *   *"Cómo evité las singularidades en el control del Kinova VR".*
-    *   *"Mi configuración de ROS 2 para baja latencia".*
-*   **Formato:** Markdown renderizados dinámicamente o una página simple `/blog`.
-
-## 3. Modo "Corporativo" (Toggle Theme) 👔
-**Concepto:** Un botón de pánico para reclutadores conservadores.
-*   **Acción:** Un interruptor (quizás en la Terminal: `sudo mode --corp`).
-*   **Resultado:**
-    *   Fondo blanco/gris limpio.
-    *   Fuente Sans-serif estándar (Inter).
-    *   Sin efectos de neón/glow.
-    *   Convierte la web en un CV digital sobrio parecido a un PDF.
-
-## 4. Skills Graph Interactivo (D3.js) 🕸️
-**Concepto:** Evolucionar la "Grid" estática de skills a un grafo de conocimiento.
-*   **Visual:** Nodos flotantes conectados por física.
-*   **Lógica:** Al pasar el ratón por **Python**, se iluminan **OpenCV** y **ROS 2** (mostramos relaciones y dependencias).
-*   **Tech:** D3.js o Vis.js.
-
-## 5. Easter Eggs (Detalles Geek) 🥚
-**Concepto:** Premiar la curiosidad.
-*   **Konami Code:** (`↑↑↓↓←→←→BA`) desencadena una lluvia Matrix o un minijuego simple.
-*   **Command Not Found:** Mensajes de error graciosos en la terminal.
-*   **404 Page:** Una página de error personalizada ("Robot not found" o "Connection Lost").
-
-## 6. API de Estado en Tiempo Real 🟢
-**Concepto:** Widget "System Status" real.
-*   **Integración:** Conectar con la API de GitHub o WakaTime.
-*   **Display:** Mostrar "Last commit: 2h ago" o "Currently coding in: Python" en el footer o en la tarjeta del Hero.
+## ✅ Completed (Phase 1: Foundation)
+*   [x] **Cyberpunk Design System:** Dark mode, neon gradients, glassmorphism.
+*   [x] **Core Pages:** Home (`index.html`), Projects (`kinova.html`, `mathsolver.html`), Contact.
+*   [x] **Interactive Terminal:** `terminal.html` with file system and help commands.
+*   [x] **Technical SEO:** Canonical tags, JSON-LD (Person), Sitemap, Robots.txt.
+*   [x] **Analytics:** GA4 Integration.
+*   [x] **Custom 404:** Glitch effect with hidden easter egg.
+*   [x] **Repo Refactor:** Professionalizing "Virtual-Kinova-Interface".
 
 ---
-*Last Updated: 2025-12-12*
+
+## 🚀 Phase 2: Interaction & Polish (Current Focus)
+
+### 1. 3D Viewer Integration 🧊
+**Goal:** Showcase CAD skills directly in the browser.
+*   **Target:** `kinova.html`.
+*   **Tech:** `Three.js` (for control) or `<model-viewer>` (Google, simpler).
+*   **Asset:** Kinova Gen2 `.obj` / `.glb` model.
+
+### 2. Corporate Mode (Toggle) 👔
+**Goal:** "Panic Button" for HR/Managers who prefer traditional layouts.
+*   **Action:** Toggle button (Floating or Nav).
+*   **Effect:** Disables Neon/Dark mode. Sets white background, black serif text, removes glitch effects.
+*   **Implementation:** Tailwind class toggle on `<html>`.
+
+### 3. Internationalization (i18n) 🌍
+**Goal:** Structure the site to support Spanish natively.
+*   **Current:** Mixed/English.
+*   **Plan:** Button `[ES] / [EN]` that swaps text content (JSON based or separate HTMLs).
+
+---
+
+## 🔮 Phase 3: Content & Automation (Future)
+
+### 4. DevLogs / Engineering Notebook 📓
+**Goal:** Technical blog to explain the "How", not just the "What".
+*   *Article Ideas:* "Handling Singularities in VR Teleoperation", "Optimizing CNNs for Handwriting".
+
+### 5. Live Status API 🟢
+**Goal:** Real-time engineering status.
+*   **Integration:** GitHub API or WakaTime.
+*   **Display:** "Currently coding in: Python" or "Last commit: 2h ago".
+
+### 6. TFG Drone Integration 🚁
+**Goal:** Prepare portfolio section for the 2026 Drone Tracking project.
+*   **Mockup:** Placeholder section with "Coming Soon" and theoretical architecture.
+
+---
+*Maintained by Agent Antigravity*
