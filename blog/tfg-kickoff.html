@@ -69,20 +69,21 @@
                 </li>
             </ul>
             <p>
-                <strong>Verdict:</strong> Going with <span class="text-amber-400 font-mono">PX4 + ROS 2 Humble</span>.
-                The integration with offboard control modes via uORB topics seems cleaner for what I want to achieve
-                (Visual Servoing).
+                <strong>Verdict:</strong> Switched to <strong>DJI Tello</strong> for the initial prototyping phase.
+                Why? It's lightweight, has a documented Python API (`djitellopy`), and allows us to focus entirely on
+                the <strong>Computer Vision</strong> algorithms (YOLO) by offloading the flight stability to the drone's
+                internal controller.
             </p>
 
             <h3>Processing Unit</h3>
             <p>
-                I need something that runs ROS 2 and OpenCV but fits on a 450mm frame.
+                I need a setup that allows rapid iteration.
                 <br>
-                <em>Contenders:</em> Jetson Nano vs Raspberry Pi 5.
+                <em>The Strategy:</em> <strong>Offboard Edge Computing</strong>.
                 <br>
-                The Pi 5 wins on CPU raw power for compiling nodes directly on the drone, even if the Jetson has better
-                CUDA cores. Since I'm using classic CV (CSRT/KCF trackers) initially before moving to heavy DL, CPU
-                cycles matter more right now.
+                Instead of running the heavy object detection on the drone, I'll stream the video feed to a laptop
+                (or Edge Server), process the frames with YOLOv8 to find the target (Person), and send velocity commands
+                back to the drone over Wi-Fi (UDP) to keep the target centered.
             </p>
 
             <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 my-8">
@@ -90,15 +91,14 @@
                     expected_architecture.yaml</h4>
                 <pre class="font-mono text-sm text-slate-300 overflow-x-auto">
 hardware:
-  flight_controller: "Pixhawk 6C"
-  companion: "Raspberry Pi 5 (8GB)"
-  camera: "Pi Camera Module 3 (Wide)"
+  drone: "DJI Tello (Ryze Tech)"
+  camera: "720p Built-in"
   
 software:
-  os: "Ubuntu 24.04 Server"
-  middleware: "ROS 2 Jazzy"
-  bridge: "MicroXRCE-DDS"
-  vision: "OpenCV 4.x"</pre>
+  language: "Python 3.10"
+  library: "djitellopy"
+  ai_model: "YOLOv8 (Ultralytics)"
+  task: "Person Following (Visual Servoing)"</pre>
             </div>
 
             <h3>Next Steps</h3>
