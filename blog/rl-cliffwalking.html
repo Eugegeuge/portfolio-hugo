@@ -57,7 +57,7 @@
             </p>
             <p>
                 I implemented and compared three fundamental Reinforcement Learning algorithms to solve this stochastic
-                problem.
+                problem (<strong>10% probability</strong> of random action vs optimal move).
             </p>
 
             <h3>The Algorithms</h3>
@@ -83,11 +83,60 @@ def update_q_learning(self, state, action, reward, next_state):
             </div>
 
             <h3>Results</h3>
-            <p>
-                The results matched the theory perfectly. <strong>SARSA</strong> learned a safer path (higher average
-                reward during training), while <strong>Q-Learning</strong> learned the optimal path but fell off the
-                cliff more often during the exploration phase.
+            <p class="mb-6">
+                The experiments revealed a clear trade-off between optimality and safety. <strong>SARSA</strong> learned
+                a
+                safer path (keeping a distance from the cliff), while <strong>Q-Learning</strong> learned the optimal
+                but
+                risky path.
             </p>
+
+            <!-- Results Table -->
+            <div class="overflow-x-auto mb-8">
+                <table class="w-full text-left border-collapse rounded-lg overflow-hidden bg-slate-800/50">
+                    <thead class="bg-slate-800 text-slate-200">
+                        <tr>
+                            <th class="p-4 border-b border-slate-700">Algorithm</th>
+                            <th class="p-4 border-b border-slate-700">Success Rate</th>
+                            <th class="p-4 border-b border-slate-700">Time (Training)</th>
+                            <th class="p-4 border-b border-slate-700">Optimal α</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-400">
+                        <tr class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-bold text-red-400">SARSA</td>
+                            <td class="p-4 text-green-400">95.6%</td>
+                            <td class="p-4">1.7s</td>
+                            <td class="p-4">0.1</td>
+                        </tr>
+                        <tr class="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-bold text-red-400">Q-Learning</td>
+                            <td class="p-4 text-green-400">95.4%</td>
+                            <td class="p-4">2.1s</td>
+                            <td class="p-4">0.1</td>
+                        </tr>
+                        <tr class="hover:bg-slate-700/30 transition-colors">
+                            <td class="p-4 font-bold text-slate-500">Monte Carlo</td>
+                            <td class="p-4 text-yellow-500">66.4%</td>
+                            <td class="p-4">17.2s</td>
+                            <td class="p-4">0.01</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Key Findings</h3>
+            <div class="space-y-4 mb-8">
+                <div class="bg-slate-800/50 p-4 rounded-lg border-l-4 border-red-500">
+                    <h4 class="font-bold text-white mb-1">Why TD > Monte Carlo?</h4>
+                    <p class="text-sm text-slate-400">
+                        Temporal Difference methods (SARSA/Q-Learning) propagate knowledge
+                        <strong>step-by-step</strong>,
+                        making them much more efficient in this environment where a single mistake (the cliff) ruins the
+                        episode. Monte Carlo high variance struggles to converge efficiently.
+                    </p>
+                </div>
+            </div>
             <p>
                 Check out the full comparison and code in the repository.
             </p>
