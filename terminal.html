@@ -204,6 +204,7 @@
                                 <span class="text-green-400">clear</span> <span class="text-slate-400">Clear terminal screen</span>
                                 <span class="text-green-400">whoami</span> <span class="text-slate-400">Display current user</span>
                                 <span class="text-green-400">matrix</span> <span class="text-slate-400">Toggle Matrix effect</span>
+                                <span class="text-green-400">fortune</span> <span class="text-slate-400">Get a random tech quote</span>
                                 <span class="text-green-400">exit</span> <span class="text-slate-400">Return to main portfolio</span>
                             </div>
                         </div>
@@ -289,6 +290,22 @@
                         startMatrix();
                         print("Wake up, Neo...", 'success');
                     }
+                    break;
+
+                case 'fortune':
+                    const quotes = [
+                        "\"The best way to predict the future is to invent it.\" - Alan Kay",
+                        "\"Talk is cheap. Show me the code.\" - Linus Torvalds",
+                        "\"It works on my machine.\" - Anonymous",
+                        "\"Simplicity is the soul of efficiency.\" - Austin Freeman",
+                        "\"I'll be back.\" - Terminator",
+                        "\"Robots will harvest us.\" - Unknown",
+                        "\"Make it work, make it right, make it fast.\" - Kent Beck",
+                        "\"Hardware: The part of a computer that you can kick.\" - Jeff Pesis",
+                        "\"There is no place like 127.0.0.1\" - Anonymous"
+                    ];
+                    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                    print(randomQuote, 'info');
                     break;
 
                 default:
