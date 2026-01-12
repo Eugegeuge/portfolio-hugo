@@ -3,25 +3,25 @@
    <!-- Core Pages -->
    <url>
       <loc>https://eugegeuge.com/</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>weekly</changefreq>
       <priority>1.0</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/contact.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.9</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/log.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.9</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/terminal.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>yearly</changefreq>
       <priority>0.5</priority>
    </url>
@@ -29,13 +29,13 @@
    <!-- Project Pages -->
    <url>
       <loc>https://eugegeuge.com/mathsolver.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/kinova.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.8</priority>
    </url>
@@ -43,55 +43,55 @@
    <!-- Blog Posts -->
    <url>
       <loc>https://eugegeuge.com/blog/happy-new-year-2026.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/merry-christmas-2025.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/kinova-unity-complete.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/rl-cliffwalking.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/tfg-kickoff.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/autonomous-forklift.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/kinova-singularities.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/portfolio-v1.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://eugegeuge.com/blog/portfolio-v2.html</loc>
-      <lastmod>2026-01-11</lastmod>
+      <lastmod>2026-01-12</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.7</priority>
    </url>
