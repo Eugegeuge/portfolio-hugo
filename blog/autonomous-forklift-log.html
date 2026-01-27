@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Forklift: Logistics Automation 🚜 | DevLog</title>
+    <meta name="description" content="Deep dive into the Autonomous Forklift project using ROS 2, Nav2, and MVSim.">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚜</text></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../assets/css/style.css?v=1.1">
+    <script src="../assets/js/tailwind.config.js"></script>
+    <script src="../assets/js/theme-toggle.js"></script>
+</head>
+
+<body class="bg-slate-900 text-slate-200 antialiased selection:bg-orange-500 selection:text-white">
+
+    <div class="fixed inset-0 tech-grid opacity-20 pointer-events-none z-0"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="../log.html"
+                class="font-mono text-lg font-bold text-slate-200 hover:text-orange-400 flex items-center gap-2 transition-colors">
+                &lt;Hugo/Logs&gt;
+            </a>
+        </div>
+    </nav>
+
+    <article class="pt-32 pb-24 px-6 max-w-3xl mx-auto relative z-10">
+        <!-- Header -->
+        <header class="mb-12 border-b border-slate-800 pb-8">
+            <div class="flex gap-3 text-sm font-mono text-orange-400 mb-4">
+                <span>Jan 27, 2026</span>
+                <span>•</span>
+                <span>Entry #010</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                Autonomous Forklift: Logistics Automation 🚜
+            </h1>
+            <p class="text-xl text-slate-400 leading-relaxed">
+                Building a complete warehouse automation system from scratch using ROS 2 Humble.
+            </p>
+        </header>
+
+        <!-- Content -->
+        <div
+            class="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:text-white prose-a:text-orange-400">
+
+            <p>
+                The <strong>Autonomous Forklift</strong> project is finally complete and functional in simulation.
+                This has been a challenging journey into the depths of <strong>ROS 2 Navigation (Nav2)</strong> and
+                custom robot control.
+            </p>
+
+            <h3>The Challenge</h3>
+            <p>
+                The goal was to create a system capable of:
+            </p>
+            <ul class="list-disc list-inside text-slate-300 space-y-2">
+                <li>Navigating a warehouse environment autonomously.</li>
+                <li>Identifying and picking up pallets.</li>
+                <li>Transporting them to specific destination shelves.</li>
+                <li>Doing all this while avoiding obstacles and following a strict mission protocol.</li>
+            </ul>
+
+            <h3>The Solution: Graph-Based Navigation</h3>
+            <p>
+                While SLAM is great for mapping, industrial environments often require predictable paths. I implemented
+                a
+                <strong>Topological Graph Navigation</strong> system.
+            </p>
+            <p>
+                Using a custom <strong>Graph Editor</strong>, we defined nodes (Shelves, Home, Waypoints) and edges.
+                The robot uses a BFS algorithm to find the shortest path through these nodes, ensuring it sticks to
+                "safe lanes" within the warehouse.
+            </p>
+
+            <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 my-8">
+                <h4 class="text-orange-400 font-mono text-sm uppercase tracking-wide mb-2">Key Tech Stack</h4>
+                <ul class="list-disc list-inside text-slate-300 space-y-2">
+                    <li><strong>ROS 2 Humble</strong>: The backbone of the system.</li>
+                    <li><strong>MVSim</strong>: Lightweight 2.5D simulator for fast iteration.</li>
+                    <li><strong>Nav2</strong>: For local planning and obstacle avoidance (AMCL + MPPI).</li>
+                    <li><strong>Python</strong>: For the Mission Control logic and Lift Controller.</li>
+                </ul>
+            </div>
+
+            <h3>What's Next?</h3>
+            <p>
+                The simulation proves the logic works. The next logical step is to deploy this stack onto a real
+                mobile base. I'm looking into using a modified pallet jack with differential drive for the physical
+                implementation.
+            </p>
+
+            <p>
+                Check out the full project details on the <a href="../autonomous-forklift.html">Project Page</a>.
+            </p>
+
+        </div>
+    </article>
+
+    <script> lucide.createIcons(); </script>
+</body>
+
+</html>

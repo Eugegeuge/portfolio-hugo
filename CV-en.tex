@@ -1,0 +1,114 @@
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+% --- Style Options ---
+\moderncvstyle{banking}
+\moderncvcolor{blue}
+\nopagenumbers{}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[scale=0.82, top=1.2cm, bottom=1.2cm]{geometry}
+\usepackage{import}
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+% ==========================================
+% MANUAL HEADER (TO FORCE PHOTO DISPLAY)
+% ==========================================
+\begin{minipage}[c]{0.65\textwidth}
+    % Name
+    {\fontsize{26}{30}\selectfont\color{color1}\bfseries Hugo Sevilla Martínez}\\[0.2cm]
+    % Title
+    {\Large Robotics Engineer (In Training)}\\[0.3cm]
+    % Contact Info with Icons
+    \small{
+        \faMapMarker~Alicante, Spain \quad \faMobile~+34 647 73 12 52\\
+        \faEnvelope~\href{mailto:hugosema.19@gmail.com}{hugosema.19@gmail.com}\\
+        \faGlobe~\href{https://eugegeuge.com}{eugegeuge.com}\\
+        \faLinkedin~\href{https://www.linkedin.com/in/hugo-sevilla-martínez-388229385}{Hugo Sevilla} \quad 
+        \faGithub~\href{https://github.com/Eugegeuge}{Eugegeuge}
+    }
+\end{minipage}%
+\begin{minipage}[c]{0.35\textwidth}
+    \begin{flushright}
+        % PHOTO HERE. Ensure file is named hugo.jpg in Overleaf
+        \includegraphics[width=3.2cm]{hugo.jpg}
+    \end{flushright}
+\end{minipage}
+
+% Blue separator line
+\vspace{1em}
+{\color{color1}\rule{\textwidth}{1.5pt}}
+\vspace{0.5em}
+
+% ==========================================
+% CONTENT
+% ==========================================
+
+% --- PROFESSIONAL PROFILE ---
+\small{Final-year Robotics Engineering student with a solid mathematical foundation and a passion for disruptive technology. I have academic experience in computer vision and systems control. I consider myself entrepreneurial, oriented towards complex problem-solving, and possess a strong capacity for autonomous learning. I am seeking opportunities to apply my knowledge in Python, C++, and Robotics to challenging projects.}
+
+\section{Education}
+
+\cventry{2022 -- Present}{Bachelor's Degree in Robotics Engineering}{University of Alicante}{Alicante}{}{
+\begin{itemize}
+    \item \textbf{Status:} Final year student (Bachelor's Thesis in progress).
+    \item \textbf{Focus:} Autonomous systems design, robot kinematics, and artificial perception.
+\end{itemize}
+}
+
+\section{Technical Skills}
+
+\begin{itemize}
+    \item \textbf{Programming Languages:} Python (Advanced), C/C++ (Intermediate-Advanced), MATLAB, C\#.
+    \item \textbf{Robotics \& Simulation:} ROS/ROS2, Unity 3D, Gazebo, Simulink.
+    \item \textbf{Artificial Intelligence:} Computer Vision (OpenCV), Neural Networks, PyTorch/TensorFlow, SVM.
+    \item \textbf{Tools \& Others:} Git/GitHub, Linux (Ubuntu), LaTeX, Agile Methodologies.
+\end{itemize}
+
+\section{Featured Projects}
+
+% PROJECT 3: Autonomous Forklift (Newest)
+\cventry{2026}{Autonomous Forklift: Warehouse Logistics Automation}{Academic Project}{ROS 2, Nav2, MVSim, Python}{}{
+\begin{itemize}
+    \item Designed and implemented a complete autonomous forklift system for warehouse logistics simulation.
+    \item Developed a \textbf{Graph-Based Navigation} system using topological maps and BFS for predictable path planning.
+    \item Created a custom \textbf{Lift Controller} to simulate realistic pallet manipulation and physics interactions.
+    \item Built a Mission Control GUI to manage navigation goals and loading/unloading tasks.
+\end{itemize}
+}
+
+% PROJECT 2: VR Kinova
+\cventry{2025}{VR Teleoperation and Planning for Kinova MICO2 Robot}{Academic Project}{Unity, ROS, C\#, VR}{}{
+\begin{itemize}
+    \item Development of an immersive \textbf{Virtual Reality} interface for the control and monitoring of a Kinova MICO2 manipulator (6 DoF).
+    \item Implementation of a \textbf{trajectory planning} system within the virtual environment, allowing the user to define waypoints intuitively.
+    \item Real-time synchronization between the digital twin and the physical robot for safe movement validation.
+    \item Controller integration via middleware (ROS/Unity Bridge) to ensure kinematic precision.
+\end{itemize}
+}
+
+% PROJECT 1: MathSolver
+\cventry{2024}{MathSolver: Equation Solver with Computer Vision}{Academic Project}{Python, OpenCV, CNNs/SVM}{}{
+\begin{itemize}
+    \item End-to-end development of an application capable of scanning handwritten equations via camera.
+    \item Implementation of \textbf{Computer Vision} algorithms for image preprocessing and segmentation.
+    \item Training of hybrid models combining \textbf{CNN} and \textbf{SVM}; strategic use of SVM to simplify the model and maintain high accuracy given the limited dataset size.
+    \item Integration of a symbolic calculation engine to solve equations in real-time.
+\end{itemize}
+}
+
+\section{Languages}
+
+\cvitemwithcomment{Spanish}{Native}{}
+\cvitemwithcomment{English}{C1 - Advanced}{Full professional proficiency.}
+\cvitemwithcomment{Valencian}{C1 - Advanced}{Official Certificate.}
+
+\section{Other Competencies \& Interests}
+
+\cvlistitem{\textbf{Entrepreneurship:} Strong interest in participating in startups to seek innovative solutions to diverse problems, covering both daily needs and critical challenges.}
+\cvlistitem{\textbf{Soft Skills:} Technical team leadership, effective communication, and adaptability.}
+\cvlistitem{\textbf{Technology:} 3D Printing, Drones, and Industrial Automation.}
+
+\end{document}

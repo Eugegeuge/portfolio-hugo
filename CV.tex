@@ -1,0 +1,115 @@
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+% --- Opciones de Estilo ---
+\moderncvstyle{banking}
+\moderncvcolor{blue}
+\nopagenumbers{}
+
+% --- Paquetes ---
+\usepackage[utf8]{inputenc}
+\usepackage[scale=0.82, top=1.2cm, bottom=1.2cm]{geometry}
+\usepackage{import}
+
+% --- COMIENZO DEL DOCUMENTO ---
+\begin{document}
+
+% ==========================================
+% CABECERA MANUAL (PARA QUE SALGA LA FOTO)
+% ==========================================
+\begin{minipage}[c]{0.65\textwidth}
+    % Nombre
+    {\fontsize{26}{30}\selectfont\color{color1}\bfseries Hugo Sevilla Martínez}\\[0.2cm]
+    % Título
+    {\Large Ingeniero en Robótica (En formación)}\\[0.3cm]
+    % Datos de contacto con iconos
+    \small{
+        \faMapMarker~Alicante, España \quad \faMobile~+34 647 73 12 52\\
+        \faEnvelope~\href{mailto:hugosema.19@gmail.com}{hugosema.19@gmail.com}\\
+        \faGlobe~\href{https://eugegeuge.com}{eugegeuge.com}\\
+        \faLinkedin~\href{https://www.linkedin.com/in/hugo-sevilla-martínez-388229385}{Hugo Sevilla} \quad 
+        \faGithub~\href{https://github.com/Eugegeuge}{Eugegeuge}
+    }
+\end{minipage}%
+\begin{minipage}[c]{0.35\textwidth}
+    \begin{flushright}
+        % AQUÍ ESTÁ LA FOTO. Asegúrate que se llama hugo.jpg
+        % Cambia width=3.2cm si la quieres más grande o pequeña
+        \includegraphics[width=3.2cm]{hugo.jpg}
+    \end{flushright}
+\end{minipage}
+
+% Línea separadora azul
+\vspace{1em}
+{\color{color1}\rule{\textwidth}{1.5pt}}
+\vspace{0.5em}
+
+% ==========================================
+% RESTO DEL CONTENIDO
+% ==========================================
+
+% --- PERFIL PROFESIONAL ---
+\small{Estudiante de último año de Ingeniería Robótica con una sólida base matemática y pasión por la tecnología disruptiva. Cuento con experiencia académica en visión por computador y control de sistemas. Me considero una persona con mentalidad emprendedora, orientada a la resolución de problemas complejos y con gran capacidad de aprendizaje autónomo. Busco oportunidades para aplicar mis conocimientos en Python, C++ y Robótica en proyectos desafiantes.}
+
+\section{Educación}
+
+\cventry{2022 -- Actualidad}{Grado en Ingeniería Robótica}{Universidad de Alicante}{Alicante}{}{
+\begin{itemize}
+    \item \textbf{Estado:} Cursando el último año (TFG en desarrollo).
+    \item \textbf{Enfoque:} Diseño de sistemas autónomos, cinemática de robots y percepción artificial.
+\end{itemize}
+}
+
+\section{Habilidades Técnicas}
+
+\begin{itemize}
+    \item \textbf{Lenguajes de Programación:} Python (Avanzado), C/C++ (Intermedio-Alto), MATLAB, C\#.
+    \item \textbf{Robótica y Simulación:} ROS/ROS2, Unity 3D, Gazebo, Simulink.
+    \item \textbf{Inteligencia Artificial:} Visión por Computador (OpenCV), Redes Neuronales, PyTorch/TensorFlow, SVM.
+    \item \textbf{Herramientas y Otros:} Git/GitHub, Linux (Ubuntu), LaTeX, Metodologías Ágiles.
+\end{itemize}
+
+\section{Proyectos Destacados}
+
+% PROYECTO 3: Autonomous Forklift (Nuevo)
+\cventry{2026}{Autonomous Forklift: Automatización Logística de Almacenes}{Proyecto Académico}{ROS 2, Nav2, MVSim, Python}{}{
+\begin{itemize}
+    \item Diseño e implementación de un sistema completo de carretilla autónoma para simulación logística de almacenes.
+    \item Desarrollo de un sistema de \textbf{Navegación Basada en Grafos} utilizando mapas topológicos y BFS para una planificación de rutas predecible.
+    \item Creación de un \textbf{Controlador de Elevación} personalizado para simular la manipulación realista de palets e interacciones físicas.
+    \item Desarrollo de una GUI de Control de Misión para gestionar objetivos de navegación y tareas de carga/descarga.
+\end{itemize}
+}
+
+% PROYECTO 2: VR Kinova
+\cventry{2025}{Teleoperación y Planificación VR para Robot Kinova MICO2}{Proyecto Académico}{Unity, ROS, C\#, VR}{}{
+\begin{itemize}
+    \item Desarrollo de una interfaz inmersiva de \textbf{Realidad Virtual} para el control y monitorización de un manipulador Kinova MICO2 (6 DoF).
+    \item Implementación de un sistema de \textbf{programación de trayectorias} dentro del entorno virtual, permitiendo al usuario definir puntos de paso (waypoints) de forma intuitiva.
+    \item Sincronización en tiempo real entre el gemelo digital y el robot físico para validación segura de movimientos.
+    \item Integración del controlador mediante middleware (ROS/Unity Bridge) para asegurar precisión cinemática.
+\end{itemize}
+}
+
+% PROYECTO 1: MathSolver
+\cventry{2024}{MathSolver: Solucionador de Ecuaciones con Visión Artificial}{Proyecto Académico}{Python, OpenCV, CNNs/SVM}{}{
+\begin{itemize}
+    \item Desarrollo integral de una aplicación capaz de escanear ecuaciones manuscritas mediante la cámara.
+    \item Implementación de algoritmos de \textbf{Visión por Computador} para el preprocesado y segmentación de imágenes.
+    \item Entrenamiento de modelos híbridos combinando \textbf{CNN} y \textbf{SVM}; uso estratégico de SVM para simplificar el modelo y mantener alta precisión dado el tamaño limitado del dataset.
+    \item Integración de un motor de cálculo simbólico para resolver la ecuación en tiempo real.
+\end{itemize}
+}
+
+\section{Idiomas}
+
+\cvitemwithcomment{Español}{Nativo}{}
+\cvitemwithcomment{Inglés}{C1 - Advanced}{Capacidad profesional completa.}
+\cvitemwithcomment{Valenciano}{C1 - Avanzado}{Certificado oficial.}
+
+\section{Otras Competencias e Intereses}
+
+\cvlistitem{\textbf{Emprendimiento:} Gran interés en participar en startups para buscar soluciones innovadoras a diversos problemas, abarcando tanto necesidades cotidianas como desafíos críticos.}
+\cvlistitem{\textbf{Soft Skills:} Liderazgo de equipos técnicos, comunicación efectiva y adaptabilidad.}
+\cvlistitem{\textbf{Tecnología:} Impresión 3D, Drones y Automatización industrial.}
+
+\end{document}
